@@ -30,7 +30,7 @@ Or install it yourself as:
 This is an example that parses the response of a Digest Authentication in the `Authorization` HTTP header:
 
   ```ruby
-  require 'http_authorization_header'
+  require 'http/authorization'
   
   authorization_string = <<-EOS
     Digest qop="chap",
@@ -40,7 +40,7 @@ This is an example that parses the response of a Digest Authentication in the `A
     cnonce="5ccc069c403ebaf9f0171e9517f40e41"
   EOS
   
-  authorization = HttpAuthorizationHeader.new authorization_string
+  authorization = HTTP::Authorization::Header.new authorization_string
   authorization.scheme    # :digest
   authorization.qop       # "chap"
   authorization.realm     # "realm@example.com"
