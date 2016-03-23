@@ -57,7 +57,7 @@ This is an example that parses the response of a Digest Authentication in the `A
   ```ruby
   require 'http/auth'
 
-  authorization_header = <<-EOS
+  header_string = <<-EOS
     Digest qop="chap",
     realm="realm@example.com",
     username="foo",
@@ -65,13 +65,13 @@ This is an example that parses the response of a Digest Authentication in the `A
     cnonce="5ccc069c403ebaf9f0171e9517f40e41"
   EOS
 
-  authorization = HTTP::Auth::Header.parse authorization_header
-  authorization.scheme    # :digest
-  authorization.qop       # "chap"
-  authorization.realm     # "realm@example.com"
-  authorization.username  # "foo"
-  authorization.response  # "6629fae49393a05397450978507c4ef1"
-  authorization.cnonce    # "5ccc069c403ebaf9f0171e9517f40e41"
+  header = HTTP::Auth::parse_authorization_header header_string
+  header.scheme    # :digest
+  header.qop       # "chap"
+  header.realm     # "realm@example.com"
+  header.username  # "foo"
+  header.response  # "6629fae49393a05397450978507c4ef1"
+  header.cnonce    # "5ccc069c403ebaf9f0171e9517f40e41"
   ```
 
 Scheme values can be one of the following:
