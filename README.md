@@ -65,7 +65,7 @@ This is an example that parses the response of a Digest Authentication in the `A
     cnonce="5ccc069c403ebaf9f0171e9517f40e41"
   EOS
 
-  header = HTTP::Auth::parse_authorization_header header_string
+  header = HTTP::Auth.parse_authorization_header header_string
   header.scheme    # :digest
   header.qop       # "chap"
   header.realm     # "realm@example.com"
