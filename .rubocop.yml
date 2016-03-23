@@ -1,0 +1,14 @@
+# A comprehensive list of configuration options is available at:
+#   https://github.com/bbatsov/rubocop/blob/master/config/default.yml
+
+Style/Documentation:
+  Enabled: false
+
+Style/AlignParameters:
+  Enabled: true
+
+Style/AlignHash:
+  Enabled: true
+
+Metrics/LineLength:
+  Max: 100

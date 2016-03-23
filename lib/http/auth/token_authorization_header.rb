@@ -29,11 +29,11 @@ module HTTP
       end
 
       def must_have_coverage_or_default(coverage)
-        (coverage && !coverage.empty?)? coverage : 'base'
+        (coverage && !coverage.empty?) ? coverage : 'base'
       end
 
       def remove_trailling_whitespace(attributes)
-        attributes.each do |name, value|
+        attributes.each do |_, value|
           value.strip! unless value.nil?
         end
       end
