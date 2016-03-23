@@ -81,3 +81,17 @@ Scheme values can be one of the following:
 - `:token`
 
 If given an unsupported authorization scheme, the `#scheme` property will return `nil`.
+
+## Development
+
+Install required gems:
+
+    $ bundle install
+
+Running tests:
+
+    $ bundle exec rspec
+
+Running code linter:
+
+    $ bundle exec rubocop
