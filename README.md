@@ -9,7 +9,7 @@ Ruby gem that helps to build or parse an `Authorization` HTTP header. It current
 
 ## Motivation
 
-The reason I created this gem was to make it easier to authenticate **REST APIs** and **microservices** in Ruby when the HTTP libraries and frameworks being used do not offer _out of the box_ support for a specific scheme. This way, one can be free to choose the best tools to integrate its services based on other criteria. For example, performance or easiness of development.
+The reason I created this gem was to make it easier to authenticate REST APIs and **microservices** in Ruby when the HTTP libraries and frameworks being used do not offer _out of the box_ support for a specific scheme. This way, one can be free to choose the best tools to integrate its services based on other criteria. For example, performance or easiness of development.
 
 The following table shows which authentication schemes some popular Ruby HTTP servers and frameworks support _out of the box_:
 
