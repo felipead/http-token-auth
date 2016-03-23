@@ -8,7 +8,7 @@ describe HTTP::Auth::TokenAuthorizationHeader do
         coverage="foobar",
         nonce="2e0d73708933eff3e53319d884a0505c",
         auth="ed5a137d3724ec12ddd95bbea3e8a634",
-        timestamp="1234567890"
+        timestamp="1458771255"
       EOS
     end
 
@@ -37,7 +37,7 @@ describe HTTP::Auth::TokenAuthorizationHeader do
     end
 
     it 'returns the "timestamp" attribute' do
-      expect(complete_header.timestamp).to eq('1234567890')
+      expect(complete_header.timestamp).to eq('1458771255')
     end
   end
 
@@ -57,31 +57,31 @@ describe HTTP::Auth::TokenAuthorizationHeader do
     end
 
     it 'returns "base" if the "coverage" attribute is ommited' do
-      without_coverage = 'token="123123342"'
+      without_coverage = 'token="a_token"'
       header = HTTP::Auth::TokenAuthorizationHeader.parse without_coverage
       expect(header.coverage).to eq('base')
     end
 
     it 'returns "base" if the "coverage" attribute is empty' do
-      with_empty_coverage = 'token="123142", coverage=""'
+      with_empty_coverage = 'token="a_token", coverage=""'
       header = HTTP::Auth::TokenAuthorizationHeader.parse with_empty_coverage
       expect(header.coverage).to eq('base')
     end
 
     it 'returns nil if the "nonce" attribute is ommited' do
-      without_nonce = 'token="123123342"'
+      without_nonce = 'token="a_token"'
       header = HTTP::Auth::TokenAuthorizationHeader.parse without_nonce
       expect(header.nonce).to be_nil
     end
 
     it 'returns nil if the "auth" attribute is ommited' do
-      without_auth = 'token="123123342"'
+      without_auth = 'token="a_token"'
       header = HTTP::Auth::TokenAuthorizationHeader.parse without_auth
       expect(header.auth).to be_nil
     end
 
     it 'returns nil if the "timestamp" attribute is ommited' do
-      without_timestamp = 'token="123123342"'
+      without_timestamp = 'token="a_token"'
       header = HTTP::Auth::TokenAuthorizationHeader.parse without_timestamp
       expect(header.timestamp).to be_nil
     end
