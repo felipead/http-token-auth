@@ -1,11 +1,14 @@
-# HTTP Authorization Header
+# HTTP Authorization
 
-Ruby gem that parses the `Authorization` HTTP header. It currently supports the following authentication schemes:
+Ruby gem that parses the `Authorization` HTTP header. It currently supports the following schemes:
 
   - HTTP Basic and Digest Access Authentication ([RFC-2617](http://tools.ietf.org/html/rfc2617)).
   - HTTP Token Access Authentication ([Draft Specification](http://tools.ietf.org/html/draft-hammer-http-token-auth-01)).
 
-The reason I created this gem was to make it easier to authenticate REST APIs and microservices in Ruby when the HTTP framework being used does not offer support for a specific Auth scheme.
+The reason I created this gem was to make it easier to authenticate REST APIs and microservices in Ruby when the HTTP frameworks being used do not offer support for a specific scheme.
+
+For i
+
 
 **WARNING**: Basic, Digest and Token Authentication are insecure and vulnerable to [man-in-the-middle attacks](https://en.wikipedia.org/wiki/Man-in-the-middle_attack) unless used over [HTTPS](https://en.wikipedia.org/wiki/HTTPS). HTTPS means transmiting HTTP through SSL/TLS encrypted TCP sockets, thus protecting the exchange of secrets. If all communications happen over HTTPS, then using a simple mechanism like Basic, Digest or Token Authentication will be secure enough in most cases.
 
