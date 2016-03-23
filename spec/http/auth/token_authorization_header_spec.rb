@@ -1,6 +1,6 @@
-require 'http/authorization'
+require 'http/auth'
 
-describe HTTP::Authorization::TokenAuthorizationHeader do
+describe HTTP::Auth::TokenAuthorizationHeader do
   let :attributes do
     <<~EOS
       token="5ccc069c403ebaf9f0171e9517f40e41"
@@ -9,7 +9,7 @@ describe HTTP::Authorization::TokenAuthorizationHeader do
 
   describe '#schema' do
     it 'returns token' do
-      header = HTTP::Authorization::TokenAuthorizationHeader.parse(attributes)
+      header = HTTP::Auth::TokenAuthorizationHeader.parse(attributes)
       expect(header.schema).to eq(:token)
     end
   end

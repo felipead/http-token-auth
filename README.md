@@ -55,8 +55,8 @@ Or install it yourself as:
 This is an example that parses the response of a Digest Authentication in the `Authorization` HTTP header:
 
   ```ruby
-  require 'http/authorization'
-  
+  require 'http/auth'
+
   authorization_header = <<-EOS
     Digest qop="chap",
     realm="realm@example.com",
@@ -64,8 +64,8 @@ This is an example that parses the response of a Digest Authentication in the `A
     response="6629fae49393a05397450978507c4ef1",
     cnonce="5ccc069c403ebaf9f0171e9517f40e41"
   EOS
-  
-  authorization = HTTP::Authorization::Header.parse authorization_header
+
+  authorization = HTTP::Auth::Header.parse authorization_header
   authorization.scheme    # :digest
   authorization.qop       # "chap"
   authorization.realm     # "realm@example.com"

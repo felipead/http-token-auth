@@ -1,5 +1,5 @@
 module HTTP
-  module Authorization
+  module Auth
     class TokenAuthorizationHeader
       def schema
         :token
