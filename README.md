@@ -39,7 +39,7 @@ In contrast, these are the authentication schemes supported by most Ruby HTTP cl
 Add this line to your application's Gemfile:
 
   ```ruby
-  gem 'http-authorization-header'
+  gem 'http-authorization'
   ```
 
 And then execute:
@@ -48,7 +48,7 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install http-authorization-header
+    $ gem install http-authorization
 
 ## Usage
 
@@ -65,7 +65,7 @@ This is an example that parses the response of a Digest Authentication in the `A
     cnonce="5ccc069c403ebaf9f0171e9517f40e41"
   EOS
   
-  authorization = HTTP::Authorization.parse_header authorization_header
+  authorization = HTTP::Authorization::Header.parse authorization_header
   authorization.scheme    # :digest
   authorization.qop       # "chap"
   authorization.realm     # "realm@example.com"
