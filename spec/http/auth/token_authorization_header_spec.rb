@@ -2,7 +2,7 @@ require 'http/auth'
 
 describe HTTP::Auth::TokenAuthorizationHeader do
   describe 'given a complete token authorization header' do
-    let :complete_header_string do
+    let :complete_header_with_extra_whitespaces do
       <<-EOS
         token="5ccc069c403ebaf9f0171e9517f40e41",
         coverage="foobar",
@@ -13,31 +13,32 @@ describe HTTP::Auth::TokenAuthorizationHeader do
     end
 
     let :complete_header do
-      HTTP::Auth::TokenAuthorizationHeader.parse(complete_header_string)
+      complete_header_with_extra_whitespaces.gsub(/\s+/, ' ').strip
     end
 
-    it 'returns token as the schema' do
-      expect(complete_header.schema).to eq(:token)
+    it 'successfully parses it' do
+      parsed = HTTP::Auth::TokenAuthorizationHeader.parse(complete_header)
+      expect(parsed.schema).to eq(:token)
+      expect(parsed.token).to eq('5ccc069c403ebaf9f0171e9517f40e41')
+      expect(parsed.coverage).to eq('foobar')
+      expect(parsed.nonce).to eq('2e0d73708933eff3e53319d884a0505c')
+      expect(parsed.auth).to eq('ed5a137d3724ec12ddd95bbea3e8a634')
+      expect(parsed.timestamp).to eq('1458771255')
     end
 
-    it 'returns the "token" attribute' do
-      expect(complete_header.token).to eq('5ccc069c403ebaf9f0171e9517f40e41')
+    it 'successfully parses it regardless of extra whitespace' do
+      parsed = HTTP::Auth::TokenAuthorizationHeader.parse(complete_header_with_extra_whitespaces)
+      expect(parsed.schema).to eq(:token)
+      expect(parsed.token).to eq('5ccc069c403ebaf9f0171e9517f40e41')
+      expect(parsed.coverage).to eq('foobar')
+      expect(parsed.nonce).to eq('2e0d73708933eff3e53319d884a0505c')
+      expect(parsed.auth).to eq('ed5a137d3724ec12ddd95bbea3e8a634')
+      expect(parsed.timestamp).to eq('1458771255')
     end
 
-    it 'returns the "coverage" attribute' do
-      expect(complete_header.coverage).to eq('foobar')
-    end
-
-    it 'returns the "nonce" attribute' do
-      expect(complete_header.nonce).to eq('2e0d73708933eff3e53319d884a0505c')
-    end
-
-    it 'returns the "auth" attribute' do
-      expect(complete_header.auth).to eq('ed5a137d3724ec12ddd95bbea3e8a634')
-    end
-
-    it 'returns the "timestamp" attribute' do
-      expect(complete_header.timestamp).to eq('1458771255')
+    it 'builds the header string' do
+      parsed = HTTP::Auth::TokenAuthorizationHeader.parse(complete_header)
+      expect(parsed.to_s).to eq("Token #{complete_header}")
     end
   end
 
@@ -46,14 +47,14 @@ describe HTTP::Auth::TokenAuthorizationHeader do
       without_token = 'coverage="base", nonce="2e0d73708933eff3e53319d884a0505c"'
       expect do
         HTTP::Auth::TokenAuthorizationHeader.parse without_token
-      end.to raise_error(ArgumentError)
+      end.to raise_error(ArgumentError).with_message('Token attribute is required')
     end
 
     it 'fails if the "token" attribute is empty' do
       with_empty_token = 'token="", coverage="base", nonce="2e0d73708933eff3e53319d884a0505c"'
       expect do
         HTTP::Auth::TokenAuthorizationHeader.parse with_empty_token
-      end.to raise_error(ArgumentError)
+      end.to raise_error(ArgumentError).with_message('Token attribute is required')
     end
 
     it 'returns "base" if the "coverage" attribute is ommited' do

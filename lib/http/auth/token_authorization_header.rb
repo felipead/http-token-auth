@@ -4,12 +4,11 @@ module HTTP
       attr_reader :token, :coverage, :nonce, :auth, :timestamp
 
       def initialize(attributes)
-        remove_trailling_whitespace(attributes)
-        @token = must_have_token(attributes[:token])
-        @coverage = must_have_coverage_or_default(attributes[:coverage])
-        @nonce = attributes[:nonce]
-        @auth = attributes[:auth]
-        @timestamp = attributes[:timestamp]
+        @token = must_have_token(strip_whitespace(attributes[:token]))
+        @coverage = must_have_coverage_or_default(strip_whitespace(attributes[:coverage]))
+        @nonce = strip_whitespace(attributes[:nonce])
+        @auth = strip_whitespace(attributes[:auth])
+        @timestamp = strip_whitespace(attributes[:timestamp])
       end
 
       def schema
@@ -19,6 +18,17 @@ module HTTP
       def self.parse(attributes_string)
         groups = extract_groups(attributes_string)
         TokenAuthorizationHeader.new extract_attributes(groups)
+      end
+
+      def to_s
+        attributes = []
+        attributes << %(token="#{@token}")
+        attributes << %(coverage="#{@coverage}") if @coverage
+        attributes << %(nonce="#{@nonce}") if @nonce
+        attributes << %(auth="#{@auth}") if @auth
+        attributes << %(timestamp="#{@timestamp}") if @timestamp
+
+        "Token #{attributes.join(', ')}"
       end
 
       private
@@ -32,10 +42,8 @@ module HTTP
         (coverage && !coverage.empty?) ? coverage : 'base'
       end
 
-      def remove_trailling_whitespace(attributes)
-        attributes.each do |_, value|
-          value.strip! unless value.nil?
-        end
+      def strip_whitespace(string)
+        string.nil? ? nil : string.strip
       end
 
       def self.extract_groups(attributes_string)
