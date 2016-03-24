@@ -1,45 +1,66 @@
-# HTTP Authorization
+# HTTP Token Access Authentication
 
-Ruby gem that helps to build or parse an `Authorization` HTTP header. It currently supports the following schemes:
+Ruby gem to handle the [HTTP Token Access Authentication](http://tools.ietf.org/html/draft-hammer-http-token-auth-01), which is still a draft specification.
 
-  - HTTP **Basic** and **Digest** Access Authentication, [RFC-2617](http://tools.ietf.org/html/rfc2617).
-  - HTTP **Token** Access Authentication, [Draft](http://tools.ietf.org/html/draft-hammer-http-token-auth-01).
+I created this library to make it easier to authenticate REST APIs and **microservices** in Ruby using access tokens, without having to resort to complex protocols such as [OAuth 1.0](http://tools.ietf.org/html/rfc5849) or [OAuth 2.0](http://tools.ietf.org/html/rfc6749).
 
-**WARNING**: Basic, Digest and Token Authentication are vulnerable to [man-in-the-middle attacks](https://en.wikipedia.org/wiki/Man-in-the-middle_attack) unless used over [HTTPS](https://en.wikipedia.org/wiki/HTTPS). HTTPS means transmiting HTTP through SSL/TLS encrypted TCP sockets, thus protecting the exchange of secrets. If **all** communications happen over HTTPS, then using a simple mechanism like Basic, Digest or Token Authentication will be secure enough in most cases.
+**WARNING**: Token Access Authentication, as well as Basic and Digest Access Authentication defined in [RFC-2617](http://tools.ietf.org/html/rfc2617), is vulnerable to [man-in-the-middle attacks](https://en.wikipedia.org/wiki/Man-in-the-middle_attack) unless used over [HTTPS](https://en.wikipedia.org/wiki/HTTPS). HTTPS means transmiting HTTP through SSL/TLS encrypted TCP sockets, thus protecting the exchange of secrets and making sure no impostors are faking the server along the communication channel.
 
-## Motivation
+## Background
 
-The reason I created this gem was to make it easier to authenticate REST APIs and **microservices** in Ruby when the HTTP libraries and frameworks being used do not offer _out of the box_ support for a specific scheme. This way, one can be free to choose the best tools to integrate its services based on other criteria. For example, performance or easiness of development.
+From the [draft specification](http://tools.ietf.org/html/draft-hammer-http-token-auth-01):
 
-The following table shows which authentication schemes some popular Ruby HTTP servers and frameworks support _out of the box_:
+> With the growing use of distributed web services and cloud computing, clients need to allow other parties access to the resources they control. When granting access, clients should not be required to share their credentials (typically a username and password). Clients should also have the ability to restrict access to a limited subset of the resources they control or limit access to the methods supported by these resources. These goals require new classes of authentication credentials.
+>
+> The HTTP Basic and Digest Access authentication schemes defined by [RFC2617](http://tools.ietf.org/html/rfc2617), enable clients to make authenticated HTTP requests by using a username (or userid) and a password. In most cases, the client uses a single set of credentials to access all the resources it controls which are hosted by the server.
+>
+> While the Basic and Digest schemes can be used to send credentials other than a username and password, their wide deployment and well-established behavior in user-agents preclude them from being used with other classes of credentials. Extending these schemes to support new classes would require an impractical change to their existing deployment.
+>
+> The Token Access Authentication scheme provides a method for making authenticated HTTP requests using a token - an identifier used to denote an access grant with specific scope, duration, cryptographic properties, and other attributes. Tokens can be issued by the server, self-issued by the client, or issued by a third-party.
+>
+> The token scheme supports an extensible set of credential classes, authentication methods (e.g. cryptographic algorithm), and authentication coverage (the elements of the HTTP request - such as the request URI or entity-body - covered by the authentication).
 
-| HTTP Server | Basic | Digest | Token |
-| --- | --- | --- | --- |
-| [Rack](https://github.com/rack/rack) | Yes | Yes | - |
-| [Grape](https://github.com/ruby-grape/grape) | Yes | Yes | - |
-| [Sinatra](https://github.com/sinatra/sinatra) | - | - | - |
-| [Rails](https://github.com/rails/rails) | Yes | Yes | Yes |
+For example, the following HTTP request:
 
-In contrast, these are the authentication schemes supported by most Ruby HTTP clients:
+    GET /resource/1 HTTP/1.1
+    Host: example.com
 
-| HTTP Client | Basic | Digest | Token |
-| --- | --- | --- | --- |
-| [Net::HTTP](http://ruby-doc.org/stdlib-2.3.0/libdoc/net/http/rdoc/Net/HTTP.html) | Yes | [Plugin](https://github.com/drbrain/net-http-digest_auth) | - |
-| [Faraday](https://github.com/lostisland/faraday) | Yes | - | Yes |
-| [HTTParty](https://github.com/jnunemaker/httparty) | Yes | Yes | - |
-| [REST Client](https://github.com/rest-client/rest-client) | Yes | - | - |
-| [httpclient](https://github.com/nahi/httpclient) | Yes | Yes | - |
-| [Excon](https://github.com/excon/excon) | Yes | - | - |
-| [Typhoeus](https://github.com/typhoeus/typhoeus) | Yes | - | - |
-| [Patron](https://github.com/toland/patron) | Yes | Yes | - |
-| [EventMachine](https://github.com/igrigorik/em-http-request) | Yes | - | - |
+returns the following authentication challenge:
+
+    HTTP/1.1 401 Unauthorized
+    WWW-Authenticate: Token realm="http://example.com/",
+                            coverage="base base+body-sha-256",
+                            timestamp="137131190"
+
+
+The response means the server is expecting the client to authenticate using the token scheme, with a set of token credentials issued for the `http://example.com/` realm.The server supports the "base" and "base+body-sha-256"coverage methods which means the client must sign the base request components (e.g. host, port, request URI), and may also sign the request payload (entity-body).It also provides its current time to assist the client in synchronizing its clock with the server's clock for the purpose of producing a unique nonce value (used with some of the authentication methods).
+
+The client has previously obtained a set of token credentials for accessing resources in the `http://example.com/` realm. The credentials issued to the client by the server included the following attributes:
+
+- token: `h480djs93hd8`
+- method: `hmac-sha-1`
+- secret: `489dks293j39`
+- expiration: `137217600`
+
+The client attempts the HTTP request again, this time using the token credentials issued by the server earlier to authenticate. The client uses the "base" coverage method and applies the "hmac-sha-1" authentication method as dictated by the token credentials.
+
+    GET /resource/1 HTTP/1.1
+    Host: example.com
+    Authorization: Token token="h480djs93hd8",
+                         coverage="base",
+                         timestamp="137131200",
+                         nonce="dj83hs9s",
+                         auth="djosJKDKJSD8743243/jdk33klY="
+
+
+to which the server respond with the requested resource representation after validating the request.
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
   ```ruby
-  gem 'http-authorization'
+  gem 'http-token-auth'
   ```
 
 And then execute:
@@ -48,39 +69,7 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install http-authorization
-
-## Usage
-
-This is an example that parses the response of a Digest Authentication in the `Authorization` HTTP header:
-
-  ```ruby
-  require 'http/auth'
-
-  header_string = <<-EOS
-    Digest qop="chap",
-    realm="realm@example.com",
-    username="foo",
-    response="6629fae49393a05397450978507c4ef1",
-    cnonce="5ccc069c403ebaf9f0171e9517f40e41"
-  EOS
-
-  header = HTTP::Auth.parse_authorization_header header_string
-  header.scheme    # :digest
-  header.qop       # "chap"
-  header.realm     # "realm@example.com"
-  header.username  # "foo"
-  header.response  # "6629fae49393a05397450978507c4ef1"
-  header.cnonce    # "5ccc069c403ebaf9f0171e9517f40e41"
-  ```
-
-Scheme values can be one of the following:
-
-- `:basic`
-- `:digest`
-- `:token`
-
-If given an unsupported authorization scheme, the `#scheme` property will return `nil`.
+    $ gem install http-token-auth
 
 ## Development
 
