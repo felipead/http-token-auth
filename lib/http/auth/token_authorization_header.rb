@@ -23,7 +23,7 @@ module HTTP
       def to_s
         attributes = []
         attributes << %(token="#{@token}")
-        attributes << %(coverage="#{@coverage}") if @coverage
+        attributes << %(coverage="#{@coverage}")
         attributes << %(nonce="#{@nonce}") if @nonce
         attributes << %(auth="#{@auth}") if @auth
         attributes << %(timestamp="#{@timestamp}") if @timestamp
