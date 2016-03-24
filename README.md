@@ -55,6 +55,45 @@ The client attempts the HTTP request again, this time using the token credential
 
 to which the server respond with the requested resource representation after validating the request.
 
+## Usage
+
+Parsing a Token Access Authentication header:
+
+  ```ruby
+  require 'http/token_auth'
+
+  header <<-EOS
+    Token token="h480djs93hd8",
+          coverage="base",
+          timestamp="137131200",
+          nonce="dj83hs9s",
+          auth="djosJKDKJSD8743243/jdk33klY="
+  EOS
+
+  parsed = HTTP::TokenAuth.parse_header(header)
+  parsed.token     # "h480djs93hd8"
+  parsed.coverage  # "base"
+  parsed.timestamp # "137131200"
+  parsed.nonce     # "dj83hs9s"
+  parsed.auth      # "djosJKDKJSD8743243"
+  ```
+
+Building a Token Access Authentication header:
+
+  ```ruby
+  require 'http/token_auth'
+
+  header = HTTP::TokenAuth.new(
+    token: 'h480djs93hd8',
+    coverage: 'base',
+    timestamp: '137131200',
+    nonce: 'dj83hs9s',
+    auth: 'djosJKDKJSD8743243'
+  )
+
+  header.to_s # The header string
+  ```
+
 ## Installation
 
 Add this line to your application's Gemfile:
