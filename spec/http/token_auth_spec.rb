@@ -36,7 +36,7 @@ describe HTTP::TokenAuth do
 
     it 'builds the header string' do
       parsed = HTTP::TokenAuth.parse_header(complete_header)
-      expect(parsed.to_s).to eq("Token #{complete_header}")
+      expect(parsed.to_s).to eq(complete_header)
     end
   end
 
