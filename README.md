@@ -95,3 +95,8 @@ Running tests:
 Running code linter:
 
     $ bundle exec rubocop
+
+
+## License
+
+This software is released under the mighty [MIT License](LICENSE).
