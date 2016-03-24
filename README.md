@@ -33,7 +33,7 @@ returns the following authentication challenge:
                             timestamp="137131190"
 
 
-The response means the server is expecting the client to authenticate using the token scheme, with a set of token credentials issued for the `"http://example.com/"` realm.The server supports the `"base"` and `"base+body-sha-256"` coverage methods which means the client must sign the base request components (e.g. host, port, request URI), and may also sign the request payload (entity-body). It also provides its current time to assist the client in synchronizing its clock with the server's clock for the purpose of producing a unique nonce value (used with some of the authentication methods).
+The response means the server is expecting the client to authenticate using the token scheme, with a set of token credentials issued for the `"http://example.com/"` realm. The server supports the `"base"` and `"base+body-sha-256"` coverage methods which means the client must sign the base request components (e.g. host, port, request URI), and may also sign the request payload (entity-body). It also provides its current time to assist the client in synchronizing its clock with the server's clock for the purpose of producing a unique nonce value (used with some of the authentication methods).
 
 The client has previously obtained a set of token credentials for accessing resources in the `http://example.com/` realm. The credentials issued to the client by the server included the following attributes:
 
