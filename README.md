@@ -10,11 +10,11 @@ When receiving an HTTP request that carries an access token, a service first ver
 
 The following sequence diagram illustrates the steps that need to happen for a successful token access authentication. In this example, an user-facing application needs to display private photos to its end user. To retrieve the photos, it make requests to another service that serves user photos. Since those photos are sensitive and private, the service needs to validate the token before handling over them.
 
-![Successful Token Access Authentication Diagram](doc/successful-token-authentication-diagram.png)
+![Successful Token Access Authentication Diagram](https://rawgit.com/felipead/http-token-auth/master/doc/successful-token-authentication-diagram.svg)
 
 Here, we illustrate what should happen if an impostor client tries to steal the private photos using brute force:
 
-![Unauthorized Token Access Authentication Diagram](doc/unauthorized-token-authentication-diagram.png)
+![Unauthorized Token Access Authentication Diagram](https://rawgit.com/felipead/http-token-auth/master/doc/unauthorized-token-authentication-diagram.svg)
 
 **WARNING**: Token Access Authentication as well as Basic and Digest Access Authentication defined in [RFC-2617](http://tools.ietf.org/html/rfc2617) may be vulnerable to [man-in-the-middle attacks](https://en.wikipedia.org/wiki/Man-in-the-middle_attack), unless used over HTTPS. HTTPS means transmiting HTTP through SSL/TLS encrypted TCP sockets, thus protecting the exchange of secrets and making sure no impostors are faking the server along the communication channel.
 
