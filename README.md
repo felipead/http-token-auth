@@ -16,13 +16,15 @@ The following sequence diagram illustrates the steps that need to happen for a s
 
 ![Successful Token Access Authentication Diagram](https://rawgit.com/felipead/http-token-auth/master/doc/successful-token-authentication-diagram.svg)
 
+Now, if an unexpected client makes a HTTP request to the photos service without providing an access token, service is denied:
+
+![Service Denied Without Token Diagram](https://rawgit.com/felipead/http-token-auth/master/doc/service-denied-without-token-diagram.svg)
+
 Here, we illustrate what should happen if an impostor client tries to steal the private photos using brute force:
 
-![Unauthorized Token Access Authentication Diagram](https://rawgit.com/felipead/http-token-auth/master/doc/unauthorized-token-authentication-diagram.svg)
+![Service Denied Due To Brute Force Attack Diagram](https://rawgit.com/felipead/http-token-auth/master/doc/service-denied-brute-force-attack-diagram.svg)
 
-Please keep in mind that the Token Access Authentication specification does not define a protocol for authenticating user credentials or a way for clients to obtain access tokens. It simply specifies methods to transport and validate a token.
-
-**WARNING**: Token Access Authentication as well as Basic and Digest Access Authentication defined in [RFC-2617](http://tools.ietf.org/html/rfc2617) may be vulnerable to [man-in-the-middle attacks](https://en.wikipedia.org/wiki/Man-in-the-middle_attack), unless used over HTTPS. HTTPS means transmiting HTTP through SSL/TLS encrypted TCP sockets, thus protecting the exchange of secrets and making sure no impostors are faking the server along the communication channel.
+Please keep in mind that the specification for Token Access Authentication does not define a protocol for authenticating user credentials or a way for clients to obtain access tokens. It simply specifies methods to transport and validate a token.
 
 ## Background
 

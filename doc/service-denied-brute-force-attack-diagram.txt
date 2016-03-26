@@ -4,12 +4,6 @@ participant AUTHENTICATION SERVICE
 participant PHOTOS SERVICE
 participant IMPOSTOR
 
-Note over IMPOSTOR: Wants to steal the private photos
-
-IMPOSTOR->PHOTOS SERVICE: Request without Token
-Note over PHOTOS SERVICE: No token provided, denies\nservice and instructs client\nto get a token
-PHOTOS SERVICE->IMPOSTOR: 401 Unauthorized
-
 Note over IMPOSTOR: Tries to guess a token
 
 IMPOSTOR->PHOTOS SERVICE: Request with Invalid Token
@@ -30,5 +24,3 @@ AUTHENTICATION SERVICE-->PHOTOS SERVICE: "No! Call the cops!"
 
 Note over PHOTOS SERVICE: Token is invalid, denies\nservice and throttles further\nrequests to prevent brute\nforce attacks
 PHOTOS SERVICE->IMPOSTOR: 401 Unauthorized
-
-Note over IMPOSTOR: Too bad...

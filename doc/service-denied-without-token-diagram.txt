@@ -1,0 +1,9 @@
+# To generate a diagram, copy and paste this code at http://bramp.github.io/js-sequence-diagrams/
+
+participant AUTHENTICATION SERVICE
+participant PHOTOS SERVICE
+participant UNEXPECTED CLIENT
+
+UNEXPECTED CLIENT->PHOTOS SERVICE: Request without Token
+Note over PHOTOS SERVICE: No token provided, denies\nservice and instructs client\nto get a token
+PHOTOS SERVICE->UNEXPECTED CLIENT: 401 Unauthorized
