@@ -2,40 +2,36 @@
 
 Ruby gem to handle the [HTTP Token Access Authentication](http://tools.ietf.org/html/draft-hammer-http-token-auth-01), which is still a draft specification and may change in the future.
 
-It supports both **parsing** and **building** a HTTP `Authentication` request header and a `WWW-Authenticate` response header with the token scheme.
+It supports both **parsing** and **building** a HTTP `Authentication` request header and a `WWW-Authenticate` response header using the token scheme.
 
 The following authentication methods are supported:
 
-- [x] `none`
-- [ ] `hmac-sha-1`
-- [ ] `hmac-sha-256`
-- [ ] `rsassa-pkcs1-v1.5-sha-256`
+- [x] [`none`](http://tools.ietf.org/html/draft-hammer-http-token-auth-01#section-7.2)
+- [ ] [`hmac-sha-1`](http://tools.ietf.org/html/draft-hammer-http-token-auth-01#section-7.2)
+- [ ] [`hmac-sha-256`](http://tools.ietf.org/html/draft-hammer-http-token-auth-01#section-7.3)
+- [ ] [`rsassa-pkcs1-v1.5-sha-256`](http://tools.ietf.org/html/draft-hammer-http-token-auth-01#section-7.4)
 
-Rather than providing a complete opinionated authentication solution that only works with Rails or a specific HTTP framework, this library aims to be minimalistic and unobtrusive. This allows more flexibility and makes it compatible with virtually any HTTP servers and clients that run on the Ruby platform.
+Rather than being a complete opinionated authentication solution that only works with Rails or a specific HTTP framework, this library aims to be minimalistic and unobtrusive. This allows more flexibility and makes it compatible with virtually any HTTP servers and clients that run on the Ruby platform.
 
-This library does not authenticate user credentials nor provide methods for obtaining access tokens. For obtaining tokens you can use any other protocol, such as [OAuth](http://tools.ietf.org/html/rfc5849), which is implemented by the [Ruby OAuth](https://github.com/oauth-xx/oauth-ruby) gem.
+This library does not authenticate users nor provide methods for obtaining token credentials. For that you can use another protocol, such as [OAuth](http://tools.ietf.org/html/rfc5849), which is implemented by the [Ruby OAuth](https://github.com/oauth-xx/oauth-ruby) gem.
 
 ## Motivation
 
-I created this gem to make it easier to authenticate HTTP-based **microservices** and RESTful APIs in Ruby using access tokens.
+I created this library to help authenticate HTTP-based **microservices** and RESTful APIs in Ruby using token credentials.
 
-Most user-facing applications need to authenticate their users before granting access to protected functionality and unlocking certain areas of the application. Service and microservice oriented architectures tipically require an authentication service, responsible for the "user" domain and for validating user credentials such as e-mail and password. The application then sends user credentials to the authentication service using a secure protocol, such as [OAuth](http://tools.ietf.org/html/rfc5849). If authentication is successful, the authentication service will return an access token, tipically a random hexadecimal string like `h480djs93hd8`. This token can be used to unlock other services in order to securely provide the desired functionality for the end user.
+Most user-facing applications need to authenticate their users before granting access to protected functionality and unlocking certain areas of the application. Service and microservice oriented architectures typically require an authentication service, responsible for validating user credentials such as e-mail and password. The application then sends user credentials to the authentication service using a secure protocol, such as [OAuth](http://tools.ietf.org/html/rfc5849). If authentication is successful, the authentication service will return a set of token credentials, which can be used to unlock other services in order to serve a set of features for the end user.
 
-When receiving a HTTP request with an access token, a service first asks the authentication service if that token is valid. If it is, the service carries on with the request as expected. Otherwise, the request is denied with a `401 Unauthorized` status code.
+When receiving a HTTP request with a set token credentials, a service first needs to check if they are valid. That might include asking the authentication service if the token identifier is correct and was not expired. If credentials are valid, the service carries on with the request as expected. Otherwise, the request is denied with a `401 Unauthorized` status code.
 
 The following sequence diagram illustrates the steps that need to happen for a successful token access authentication. In this example, an user-facing application needs to display private photos to its end user. First, it authenticates the user credentials using OAuth (it could use any other protocol for that). Then, in order to retrieve those photos, it make requests to another service. Since the photos are sensitive and private, this service needs to validate the token before handling over them.
 
 ![Successful Token Access Authentication Diagram](https://rawgit.com/felipead/http-token-auth/master/doc/successful-token-authentication-diagram.svg)
 
-Now, if an unadvertised client makes a HTTP request to the photos service without providing an access token, service is denied. The response should also instruct the client on how it can obtain a token.
+If an unadvertised client makes a HTTP request to the service without providing the correct token credentials, service is denied. In this case, the response should use the `WWW-Authenticate` header to instruct the client on how to obtain the token credentials.
 
-![Service Denied Without Token Diagram](https://rawgit.com/felipead/http-token-auth/master/doc/service-denied-without-token-diagram.svg)
+To protect itself against brute force or [DoS attacks](https://en.wikipedia.org/wiki/Denial-of-service_attack), the server should also throttle or reject consecutive requests with invalid token credentials coming from the same host.
 
-Here, we illustrate what should happen if an impostor client tries to steal the private photos using brute force:
-
-![Service Denied Due To Brute Force Attack Diagram](https://rawgit.com/felipead/http-token-auth/master/doc/service-denied-brute-force-attack-diagram.svg)
-
-Please keep in mind that the specification for Token Access Authentication does not define a protocol for authenticating user credentials or a way for clients to obtain access tokens. It simply specify a protocol that transports and validates an existing token.
+Please keep in mind that the specification for Token Access Authentication does not define a method for authenticating users nor obtaining token credentials. It simply specify how to transport and validate existing token credentials.
 
 ## Background
 
@@ -70,9 +66,9 @@ The client then uses another method to obtain the token credentials for accessin
     Host: example.com
     Authorization: Token token="h480djs93hd8"
 
-Since this is a valid token, authentication is confirmed and the server carries on the request as expected.
+Since this is a valid token, the request is authenticated and the server carries it on.
 
-**WARNING**: Without cryptography, Token Access Authentication is insecure and vulnerable to [man-in-the-middle attacks](https://en.wikipedia.org/wiki/Man-in-the-middle_attack). This can be prevented by using HTTPS, which means transmitting HTTP through SSL/TLS encrypted TCP sockets, thus protecting the exchange of secrets and making sure no impostors are faking the server along the communication channel.
+**WARNING**: Without cryptography, Token Access Authentication is insecure and vulnerable to [man-in-the-middle attacks](https://en.wikipedia.org/wiki/Man-in-the-middle_attack). This can be prevented by using HTTPS, which means transmitting HTTP through SSL/TLS encrypted TCP sockets, thus protecting the exchange of secrets and making sure no impostors are faking the server along the way.
 
 ### Encrypted Token Access Authentication
 
@@ -107,13 +103,13 @@ The client attempts the HTTP request again, this time using the token credential
                          nonce="dj83hs9s",
                          auth="djosJKDKJSD8743243/jdk33klY="
 
-The following cryptographic authentication methods are supported:
+The server then authenticates the request and carries on as expected.
+
+The following cryptographic authentication methods are defined in the specification:
 
 - [`hmac-sha-1`](http://tools.ietf.org/html/draft-hammer-http-token-auth-01#section-7.2)
 - [`hmac-sha-256`](http://tools.ietf.org/html/draft-hammer-http-token-auth-01#section-7.3)
 - [`rsassa-pkcs1-v1.5-sha-256`](http://tools.ietf.org/html/draft-hammer-http-token-auth-01#section-7.4)
-
-To understand how they work, please read the specification.
 
 ## Usage
 
