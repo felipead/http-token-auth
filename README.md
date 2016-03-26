@@ -68,7 +68,7 @@ The client then uses another method to obtain the token credentials for accessin
 
 Since this is a valid token, the request is authenticated and the server carries it on.
 
-**WARNING**: Without cryptography, Token Access Authentication is insecure and vulnerable to [man-in-the-middle attacks](https://en.wikipedia.org/wiki/Man-in-the-middle_attack). This can be prevented by using HTTPS, which means transmitting HTTP through SSL/TLS encrypted TCP sockets, thus protecting the exchange of secrets and making sure no impostors are faking the server along the way.
+**WARNING**: Unencrypted Token Access Authentication is insecure and vulnerable to [man-in-the-middle attacks](https://en.wikipedia.org/wiki/Man-in-the-middle_attack). This can be prevented by using HTTPS, which means transmitting HTTP through SSL/TLS encrypted TCP sockets, thus protecting the exchange of secrets and making sure no impostors are faking the server along the way.
 
 ### Encrypted Token Access Authentication
 
