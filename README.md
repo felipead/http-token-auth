@@ -16,7 +16,7 @@ The following sequence diagram illustrates the steps that need to happen for a s
 
 ![Successful Token Access Authentication Diagram](https://rawgit.com/felipead/http-token-auth/master/doc/successful-token-authentication-diagram.svg)
 
-Now, if an unexpected client makes a HTTP request to the photos service without providing an access token, service is denied:
+Now, if an unadvertised client makes a HTTP request to the photos service without providing an access token, service is denied:
 
 ![Service Denied Without Token Diagram](https://rawgit.com/felipead/http-token-auth/master/doc/service-denied-without-token-diagram.svg)
 
