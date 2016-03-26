@@ -4,13 +4,13 @@ Ruby gem to handle the [HTTP Token Access Authentication](http://tools.ietf.org/
 
 ## Motivation
 
-I created this gem to make it easier to authenticate HTTP-based **microservices** and RESTful APIs in Ruby using access tokens. Service and microservice oriented architectures tipically have an authentication service, responsible for the "user" domain and for validating user credentials such as e-mail and password.
+I created this gem to make it easier to authenticate HTTP-based **microservices** and RESTful APIs in Ruby using access tokens. Service and microservice oriented architectures tipically use an authentication service, responsible for the "user" domain and for validating user credentials such as e-mail and password.
 
 Most user-facing applications need to authenticate their users before granting access to protected functionality and unlocking certain areas of the system. This could be accomplished by sending user credentials to the authentication service using a secure protocol, such as [OAuth](http://tools.ietf.org/html/rfc5849). If authentication is successful, the authentication service would return an access token, tipically a random hexadecimal string like `"e59ff97941044f85df5297e1c302d260"`. This token is used as a key to unlock other services in order to securely provide the desired functionality for the end user.
 
-When receiving an HTTP request that carries an access token, a service first verifies with the authentication service if that token is valid. If it is, the service carries on the request as expected. Otherwise, the request is denied with a `401 Unauthorized` status code.
+When receiving a HTTP request with an access token, a service first asks the authentication service if that token is valid. If it is, the service carries on with the request as expected. Otherwise, the request is denied with a `401 Unauthorized` status code.
 
-The following sequence diagram illustrates the steps that need to happen for a successful token access authentication. In this example, an user-facing application needs to display private photos to its end user. First, it authenticates the user credentials using OAuth (it could use any other protocol here). Then, in order to retrieve the photos, it make requests to another service. Since those photos are sensitive and private, this service needs to validate the token before handling over them.
+The following sequence diagram illustrates the steps that need to happen for a successful token access authentication. In this example, an user-facing application needs to display private photos to its end user. First, it authenticates the user credentials using OAuth (it could use any other protocol for that). Then, in order to retrieve those photos, it make requests to another service. Since the photos are sensitive and private, this service needs to validate the token before handling over them.
 
 ![Successful Token Access Authentication Diagram](https://rawgit.com/felipead/http-token-auth/master/doc/successful-token-authentication-diagram.svg)
 
