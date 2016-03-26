@@ -1,0 +1,21 @@
+# To generate a diagram, copy and paste this code at http://bramp.github.io/js-sequence-diagrams/
+
+participant AUTHENTICATION SERVICE
+participant USER APPLICATION
+participant PHOTOS SERVICE
+
+Note over USER APPLICATION: Authenticates user
+USER APPLICATION->AUTHENTICATION SERVICE: User Credentials
+Note over AUTHENTICATION SERVICE: Checks credentials
+AUTHENTICATION SERVICE->USER APPLICATION: Access Token
+
+Note over USER APPLICATION: Wants to show private photos
+USER APPLICATION->PHOTOS SERVICE: Request with Token
+
+Note over PHOTOS SERVICE: Validates token before\nserving requests
+PHOTOS SERVICE-->AUTHENTICATION SERVICE: "Is token valid?"
+Note over AUTHENTICATION SERVICE: Checks token
+AUTHENTICATION SERVICE-->PHOTOS SERVICE: "Yes, it is!"
+
+Note over PHOTOS SERVICE: Token is valid,\ncarries on
+PHOTOS SERVICE->USER APPLICATION: Successful Response

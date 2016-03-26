@@ -2,7 +2,15 @@
 
 Ruby gem to handle the [HTTP Token Access Authentication](http://tools.ietf.org/html/draft-hammer-http-token-auth-01), which is still a draft specification and may change in the future.
 
-I created this gem to make it easier to authenticate RESTful APIs and Microservices in Ruby using access tokens, without having to resort to complex protocols such as [OAuth 1.0](http://tools.ietf.org/html/rfc5849) or [OAuth 2.0](http://tools.ietf.org/html/rfc6749).
+I created this gem to make it easier to authenticate HTTP-based **microservices** and RESTful APIs in Ruby using access tokens. Service and microservice oriented architectures tipically have an authentication service, responsible for the "user" domain and for validating user credentials such as e-mail and password.
+
+Most user-facing applications need to authenticate their users before granting access to protected functionality and unlocking certain areas of the system. This could be accomplished by sending user credentials to the authentication service using a secure protocol, such as [OAuth](http://tools.ietf.org/html/rfc5849). If authentication is successful, the authentication service would return an access token, tipically a random hexadecimal string like as `"e59ff97941044f85df5297e1c302d260"`. This token works as a key to unlock other services or microservices in order to securely provide the desired functionality for the end user.
+
+When receiving an HTTP request that carries an access token, a service first verifies with the authentication service if that token is valid. If it is, the service carries on the request as expected. Otherwise, the request is denied with a `401 Unauthorized` status code.
+
+The following diagram illustrate a successful Token access authentication timeline:
+
+![Successful Token Access Authentication Diagram](doc/successful-token-authentication-diagram.svg)
 
 **WARNING**: Token Access Authentication as well as Basic and Digest Access Authentication defined in [RFC-2617](http://tools.ietf.org/html/rfc2617) may be vulnerable to [man-in-the-middle attacks](https://en.wikipedia.org/wiki/Man-in-the-middle_attack), unless used over HTTPS. HTTPS means transmiting HTTP through SSL/TLS encrypted TCP sockets, thus protecting the exchange of secrets and making sure no impostors are faking the server along the communication channel.
 
@@ -19,6 +27,8 @@ From the [draft specification](http://tools.ietf.org/html/draft-hammer-http-toke
 > The Token Access Authentication scheme provides a method for making authenticated HTTP requests using a token - an identifier used to denote an access grant with specific scope, duration, cryptographic properties, and other attributes. Tokens can be issued by the server, self-issued by the client, or issued by a third-party.
 >
 > The token scheme supports an extensible set of credential classes, authentication methods (e.g. cryptographic algorithm), and authentication coverage (the elements of the HTTP request - such as the request URI or entity-body - covered by the authentication).
+>
+> This specification defines four token authentication methods to support the most common use cases and describes their security properties. The methods through which clients obtain tokens supporting these methods are beyond the scope of this specification. The [OAuth protocol](http://tools.ietf.org/html/draft-ietf-oauth-web-delegation-01) defines one such set of methods for obtaining token credentials.
 
 For example, the following HTTP request:
 
