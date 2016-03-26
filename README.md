@@ -6,7 +6,7 @@ It supports both **parsing** and **building** a HTTP `Authentication` request he
 
 The following authentication methods are supported:
 
-- [x] [`none`](http://tools.ietf.org/html/draft-hammer-http-token-auth-01#section-7.2)
+- [x] [`none`](http://tools.ietf.org/html/draft-hammer-http-token-auth-01#section-7.1)
 - [ ] [`hmac-sha-1`](http://tools.ietf.org/html/draft-hammer-http-token-auth-01#section-7.2)
 - [ ] [`hmac-sha-256`](http://tools.ietf.org/html/draft-hammer-http-token-auth-01#section-7.3)
 - [ ] [`rsassa-pkcs1-v1.5-sha-256`](http://tools.ietf.org/html/draft-hammer-http-token-auth-01#section-7.4)
