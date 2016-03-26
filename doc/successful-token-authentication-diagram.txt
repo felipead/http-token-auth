@@ -4,7 +4,7 @@ participant AUTHENTICATION SERVICE
 participant USER APPLICATION
 participant PHOTOS SERVICE
 
-Note over USER APPLICATION: Authenticates user
+Note over USER APPLICATION: Authenticates user\nusing OAuth
 USER APPLICATION->AUTHENTICATION SERVICE: User Credentials
 Note over AUTHENTICATION SERVICE: Checks credentials
 AUTHENTICATION SERVICE->USER APPLICATION: Access Token
