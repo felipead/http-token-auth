@@ -1,0 +1,34 @@
+# To generate a diagram, copy and paste this code at http://bramp.github.io/js-sequence-diagrams/
+
+participant AUTHENTICATION SERVICE
+participant PHOTOS SERVICE
+participant IMPOSTOR
+
+Note over IMPOSTOR: Wants to steal the private photos
+
+IMPOSTOR->PHOTOS SERVICE: Request without token
+Note over PHOTOS SERVICE: No token provided, denies\nservice and instructs client\nto get a token
+PHOTOS SERVICE->IMPOSTOR: 401 Unauthorized
+
+Note over IMPOSTOR: Tries to guess a token
+
+IMPOSTOR->PHOTOS SERVICE: Request with invalid token
+Note over PHOTOS SERVICE: Validates token before\nserving requests
+PHOTOS SERVICE-->AUTHENTICATION SERVICE: "Is token valid?"
+Note over AUTHENTICATION SERVICE: Checks token
+AUTHENTICATION SERVICE-->PHOTOS SERVICE: "No, it is not!"
+
+Note over PHOTOS SERVICE: Token is invalid,\ndenies service
+PHOTOS SERVICE->IMPOSTOR: 401 Unauthorized
+
+Note over IMPOSTOR: Tries to guess a token (again)
+
+IMPOSTOR->PHOTOS SERVICE: Request with invalid token
+PHOTOS SERVICE-->AUTHENTICATION SERVICE: "Is token valid?"
+Note over AUTHENTICATION SERVICE: Checks token
+AUTHENTICATION SERVICE-->PHOTOS SERVICE: "No! Call the cops!"
+
+Note over PHOTOS SERVICE: Token is invalid, denies\nservice and throttles further\nrequests to prevent brute\nforce attacks
+PHOTOS SERVICE->IMPOSTOR: 401 Unauthorized
+
+Note over IMPOSTOR: Too bad...
