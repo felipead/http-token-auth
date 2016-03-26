@@ -10,7 +10,7 @@ When receiving an HTTP request that carries an access token, a service first ver
 
 The following diagram illustrate a successful Token access authentication timeline:
 
-![Successful Token Access Authentication Diagram](doc/successful-token-authentication-diagram.svg)
+![Successful Token Access Authentication Diagram](https://rawgit.com/felipead/http-token-auth/master/doc/successful-token-authentication-diagram.svg)
 
 **WARNING**: Token Access Authentication as well as Basic and Digest Access Authentication defined in [RFC-2617](http://tools.ietf.org/html/rfc2617) may be vulnerable to [man-in-the-middle attacks](https://en.wikipedia.org/wiki/Man-in-the-middle_attack), unless used over HTTPS. HTTPS means transmiting HTTP through SSL/TLS encrypted TCP sockets, thus protecting the exchange of secrets and making sure no impostors are faking the server along the communication channel.
 
