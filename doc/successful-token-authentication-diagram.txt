@@ -2,20 +2,20 @@
 
 participant AUTHENTICATION SERVICE
 participant USER APPLICATION
-participant PHOTOS SERVICE
+participant PHOTO SERVICE
 
-Note over USER APPLICATION: Authenticates user\nusing OAuth
+Note left of USER APPLICATION: Authenticates user (OAuth)
 USER APPLICATION->AUTHENTICATION SERVICE: User Credentials
-Note over AUTHENTICATION SERVICE: Checks credentials
-AUTHENTICATION SERVICE->USER APPLICATION: Access Token
+Note left of AUTHENTICATION SERVICE: Checks user\ncredentials
+AUTHENTICATION SERVICE->USER APPLICATION: Token Credentials
 
-Note over USER APPLICATION: Wants to show private photos
-USER APPLICATION->PHOTOS SERVICE: Request with Token
+Note over USER APPLICATION: Needs to display user photos
+USER APPLICATION->PHOTO SERVICE: Request with\nToken Authorization
 
-Note over PHOTOS SERVICE: Validates token before\nserving requests
-PHOTOS SERVICE-->AUTHENTICATION SERVICE: "Is token valid?"
-Note over AUTHENTICATION SERVICE: Checks token
-AUTHENTICATION SERVICE-->PHOTOS SERVICE: "Yes, it is!"
+Note right of PHOTO SERVICE: Validates token before\nserving requests
+PHOTO SERVICE-->AUTHENTICATION SERVICE: "Is valid token?"
+Note left of AUTHENTICATION SERVICE: Checks token\ncredentials
+AUTHENTICATION SERVICE-->PHOTO SERVICE: "Yes!"
 
-Note over PHOTOS SERVICE: Token is valid,\ncarries on
-PHOTOS SERVICE->USER APPLICATION: Successful Response
+Note right of PHOTO SERVICE: Carries on
+PHOTO SERVICE->USER APPLICATION: Successful Response
