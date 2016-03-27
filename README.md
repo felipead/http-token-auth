@@ -31,7 +31,7 @@ If an unadvertised client makes a HTTP request to the service without providing 
 
 To protect itself against brute force or [DoS attacks](https://en.wikipedia.org/wiki/Denial-of-service_attack), the server should also throttle or reject consecutive requests with invalid token credentials coming from the same host.
 
-Please keep in mind that the specification for Token Access Authentication does not define a method for authenticating users nor obtaining token credentials. It simply specify how to transport and validate existing token credentials.
+Please keep in mind that the specification for Token Access Authentication does not define a method for authenticating users nor obtaining token credentials. It simply specifies how to transport and validate existing token credentials.
 
 ## Background
 
@@ -45,7 +45,7 @@ From the [specification](http://tools.ietf.org/html/draft-hammer-http-token-auth
 >
 > The token scheme supports an extensible set of credential classes, authentication methods (e.g. cryptographic algorithm), and authentication coverage (the elements of the HTTP request - such as the request URI or entity-body - covered by the authentication).
 
-### Unencrypted Token Access Authentication
+### Token Access Authentication without a Cryptographic Algorithm
 
 The following HTTP request:
 
@@ -68,9 +68,9 @@ The client then uses another method to obtain the token credentials for accessin
 
 Since this is a valid token, the request is authenticated and the server carries it on.
 
-**WARNING**: Unencrypted Token Access Authentication is insecure and vulnerable to [man-in-the-middle attacks](https://en.wikipedia.org/wiki/Man-in-the-middle_attack). This can be prevented by using HTTPS, which means transmitting HTTP through SSL/TLS encrypted TCP sockets, thus protecting the exchange of secrets and making sure no impostors are faking the server along the way.
+**WARNING**: Without a cryptographic algorith, Token Access Authentication is insecure and vulnerable to [man-in-the-middle attacks](https://en.wikipedia.org/wiki/Man-in-the-middle_attack). This can be prevented by using HTTPS, which means transmitting HTTP through SSL/TLS encrypted TCP sockets, thus protecting the exchange of secrets and making sure no impostors are faking the server along the way.
 
-### Encrypted Token Access Authentication
+### Token Access Authentication with a Cryptographic Algorithm
 
 The following HTTP request:
 
