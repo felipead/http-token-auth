@@ -113,7 +113,7 @@ The following cryptographic authentication methods are defined in the specificat
 
 ## Usage
 
-Parsing a Token Access Authentication header:
+Parsing an "Authorization" HTTP header with the token scheme:
 
   ```ruby
   require 'http/token_auth'
@@ -134,7 +134,7 @@ Parsing a Token Access Authentication header:
   credentials.auth      # "djosJKDKJSD8743243/jdk33klY="
   ```
 
-Building a Token Access Authentication header:
+Building an "Authorization" HTTP header with the token scheme:
 
   ```ruby
   require 'http/token_auth'
