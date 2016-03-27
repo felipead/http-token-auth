@@ -27,7 +27,7 @@ The following sequence diagram illustrates the steps that need to happen for a s
 
 ![Successful Token Access Authentication Diagram](https://rawgit.com/felipead/http-token-auth/master/doc/successful-token-authentication-diagram.svg)
 
-If an unadvertised client makes a HTTP request to the photo service without providing token credentials, service is denied. The server sends a `401 Unauthorized` response with a `WWW-Authenticate` header containing the authentication challenge, which instructs the client on how to acquire token credentials.
+If an unadvertised client makes a HTTP request to the photo service without providing valid token credentials, service is denied. The server sends a `401 Unauthorized` response with a `WWW-Authenticate` header containing the authentication challenge, which instructs the client on how to acquire token credentials.
 
 ![Service Denied Without Token Authorization Diagram](https://rawgit.com/felipead/http-token-auth/master/doc/service-denied-without-token-diagram.svg)
 
