@@ -68,7 +68,7 @@ The client then uses another method to obtain the token credentials for accessin
 
 Since this is a valid token, the request is authenticated and the server carries it on.
 
-**WARNING**: Without a cryptographic algorith, Token Access Authentication is insecure and vulnerable to [man-in-the-middle attacks](https://en.wikipedia.org/wiki/Man-in-the-middle_attack). This can be prevented by using HTTPS, which means transmitting HTTP through SSL/TLS encrypted TCP sockets, thus protecting the exchange of secrets and making sure no impostors are faking the server along the way.
+**WARNING**: Without a cryptographic algorithm, Token Access Authentication is insecure and vulnerable to [man-in-the-middle attacks](https://en.wikipedia.org/wiki/Man-in-the-middle_attack). This can be prevented by using HTTPS, which means transmitting HTTP through SSL/TLS encrypted TCP sockets, thus protecting the exchange of secrets and making sure no impostors are faking the server along the way.
 
 ### Token Access Authentication with a Cryptographic Algorithm
 
@@ -113,7 +113,7 @@ The following cryptographic authentication methods are defined in the specificat
 
 ## Usage
 
-Parsing an "Authorization" HTTP header with the token scheme:
+### Parsing an `Authorization` Header
 
   ```ruby
   require 'http/token_auth'
@@ -126,7 +126,7 @@ Parsing an "Authorization" HTTP header with the token scheme:
           auth="djosJKDKJSD8743243/jdk33klY="
   EOS
 
-  credentials = HTTP::TokenAuth.parse_authentication_header(header)
+  credentials = HTTP::TokenAuth.parse_authorization_header(header)
   credentials.token     # "h480djs93hd8"
   credentials.coverage  # "base"
   credentials.timestamp # "137131200"
@@ -134,7 +134,29 @@ Parsing an "Authorization" HTTP header with the token scheme:
   credentials.auth      # "djosJKDKJSD8743243/jdk33klY="
   ```
 
-Building an "Authorization" HTTP header with the token scheme:
+### Building an `Authorization` Header
+
+#### Without a Cryptographic Algorithm
+
+A nil `coverage` parameter translates to `coverage="none"` when building the header. However, the specification states that if coverage is "none", then it can be ommited.
+
+For a "none" coverage, the `nonce`, `auth` and `timestamp` attributes are not used and should be ommitted.
+
+  ```ruby
+  require 'http/token_auth'
+
+  credentials = HTTP::TokenAuth::Credentials.new token: 'h480djs93hd8'
+
+  credentials.to_header
+
+  # Token token="h480djs93hd8"
+  ```
+
+#### With a Cryptographic Algorithm
+
+A cryptographic algorithm is used if coverage is set to `:basic` or `:base_body_sha_256`, which translates to `coverage="base"` and `coverage="base+body-sha-256"` respectively.
+
+In this case, it is mandatory to specify the values of the `nonce`, `auth` and `timestamp` attributes. Details on how to fill those attributes depend on the cryptographic algorithm being used, as defined in the specification.
 
   ```ruby
   require 'http/token_auth'
@@ -153,6 +175,8 @@ Building an "Authorization" HTTP header with the token scheme:
   #       auth="djosJKDKJSD8743243/jdk33klY=",
   #       timestamp="137131200"
   ```
+
+Building an `Authorization` HTTP header with the token scheme and an cryptographic algorithm:
 
 ## Installation
 
