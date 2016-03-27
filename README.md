@@ -211,4 +211,4 @@ Running code linter:
 
 ## License
 
-This software is released under the mighty [MIT License](LICENSE).
+This software is released under the mighty [MIT License](LICENSE.txt).
