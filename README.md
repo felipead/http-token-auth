@@ -118,7 +118,7 @@ The following cryptographic authentication methods are defined in the specificat
   ```ruby
   require 'http/token_auth'
 
-  header <<-EOS
+  header = <<-EOS
     Token token="h480djs93hd8",
           coverage="base",
           timestamp="137131200",
