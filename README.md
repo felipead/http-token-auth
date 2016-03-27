@@ -126,12 +126,12 @@ Parsing a Token Access Authentication header:
           auth="djosJKDKJSD8743243/jdk33klY="
   EOS
 
-  parsed = HTTP::TokenAuth.parse_header(header)
-  parsed.token     # "h480djs93hd8"
-  parsed.coverage  # "base"
-  parsed.timestamp # "137131200"
-  parsed.nonce     # "dj83hs9s"
-  parsed.auth      # "djosJKDKJSD8743243"
+  credentials = HTTP::TokenAuth::Credentials.parse_header(header)
+  credentials.token     # "h480djs93hd8"
+  credentials.coverage  # "base"
+  credentials.timestamp # "137131200"
+  credentials.nonce     # "dj83hs9s"
+  credentials.auth      # "djosJKDKJSD8743243"
   ```
 
 Building a Token Access Authentication header:
@@ -139,15 +139,19 @@ Building a Token Access Authentication header:
   ```ruby
   require 'http/token_auth'
 
-  header = HTTP::TokenAuth.new(
-    token: 'h480djs93hd8',
-    coverage: 'base',
-    timestamp: '137131200',
-    nonce: 'dj83hs9s',
-    auth: 'djosJKDKJSD8743243'
-  )
+  credentials = HTTP::TokenAuth::Credentials.new token: 'h480djs93hd8',
+                                                 coverage: :base_body_sha_256,
+                                                 nonce: 'dj83hs9s',
+                                                 auth: 'djosJKDKJSD8743243'
+                                                 timestamp: 137131200,
 
-  header.to_s # The header string
+  credentials.to_header
+
+  # Token token="h480djs93hd8",
+  #       coverage="base+body-sha-256",
+  #       nonce="dj83hs9s",
+  #       auth="djosJKDKJSD8743243",
+  #       timestamp="137131200"
   ```
 
 ## Installation

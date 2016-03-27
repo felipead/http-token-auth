@@ -1,6 +1,8 @@
 require 'http/token_auth'
 
-describe HTTP::TokenAuth do
+include HTTP::TokenAuth
+
+describe Credentials do
   describe 'given the value of an "Authentication" HTTP header with the token scheme' do
     describe 'using a cryptographic algorithm' do
       { 'base' => :base, 'base+body-sha-256' => :base_body_sha_256 }.each do |name, symbol|
@@ -12,7 +14,7 @@ describe HTTP::TokenAuth do
                   auth="djosJKDKJSD8743243/jdk33klY=",
                   timestamp="137131200"
           EOS
-          credentials = HTTP::TokenAuth.parse_header(header)
+          credentials = Credentials.parse_header(header)
           expect(credentials.token).to eq('h480djs93hd8')
           expect(credentials.coverage).to eq(symbol)
           expect(credentials.nonce).to eq('dj83hs9s')
@@ -30,8 +32,8 @@ describe HTTP::TokenAuth do
                 timestamp="137131200"
         EOS
         expect do
-          HTTP::TokenAuth.parse_header(header)
-        end.to raise_error(HTTP::TokenAuthHeaderParsingError).with_message(
+          Credentials.parse_header(header)
+        end.to raise_error(HeaderParsingError).with_message(
           /Invalid coverage "invalid"/)
       end
     end
@@ -42,7 +44,7 @@ describe HTTP::TokenAuth do
           Token token="h480djs93hd8",
                 coverage="none"
         EOS
-        credentials = HTTP::TokenAuth.parse_header(header)
+        credentials = Credentials.parse_header(header)
         expect(credentials.token).to eq('h480djs93hd8')
         expect(credentials.coverage).to be_nil
         expect(credentials.nonce).to be_nil
@@ -54,7 +56,7 @@ describe HTTP::TokenAuth do
         header = <<-EOS
           Token token="h480djs93hd8"
         EOS
-        credentials = HTTP::TokenAuth.parse_header(header)
+        credentials = Credentials.parse_header(header)
         expect(credentials.token).to eq('h480djs93hd8')
         expect(credentials.coverage).to be_nil
         expect(credentials.nonce).to be_nil
@@ -67,23 +69,23 @@ describe HTTP::TokenAuth do
   describe 'building an "Authentication" HTTP header with the token scheme' do
     it 'fails if token is not defined' do
       expect do
-        HTTP::TokenAuth.new token: nil,
-                            coverage: :base,
-                            nonce: 'dj83hs9s',
-                            auth: 'djosJKDKJSD8743243/jdk33klY=',
-                            timestamp: 137131200
-      end.to raise_error(HTTP::TokenAuthArgumentError).with_message(
+        Credentials.new token: nil,
+                        coverage: :base,
+                        nonce: 'dj83hs9s',
+                        auth: 'djosJKDKJSD8743243/jdk33klY=',
+                        timestamp: 137131200
+      end.to raise_error(MissingArgumentError).with_message(
         'Invalid token credentials: "token" is missing')
     end
 
     describe 'using a cryptographic algorithm' do
       { 'base' => :base, 'base+body-sha-256' => :base_body_sha_256 }.each do |name, symbol|
         it %(builds it if coverage is "#{name}") do
-          credentials = HTTP::TokenAuth.new token: 'h480djs93hd8',
-                                            coverage: symbol,
-                                            nonce: 'dj83hs9s',
-                                            auth: 'djosJKDKJSD8743243/jdk33klY=',
-                                            timestamp: 137131200
+          credentials = Credentials.new token: 'h480djs93hd8',
+                                        coverage: symbol,
+                                        nonce: 'dj83hs9s',
+                                        auth: 'djosJKDKJSD8743243/jdk33klY=',
+                                        timestamp: 137131200
 
           header = credentials.to_header
           expect(header).to start_with('Token')
@@ -97,39 +99,39 @@ describe HTTP::TokenAuth do
 
       it 'fails if nonce is not defined' do
         expect do
-          HTTP::TokenAuth.new token: 'h480djs93hd8',
-                              coverage: :base,
-                              auth: 'djosJKDKJSD8743243/jdk33klY=',
-                              timestamp: 137131200
-        end.to raise_error(HTTP::TokenAuthArgumentError).with_message(
+          Credentials.new token: 'h480djs93hd8',
+                          coverage: :base,
+                          auth: 'djosJKDKJSD8743243/jdk33klY=',
+                          timestamp: 137131200
+        end.to raise_error(MissingArgumentError).with_message(
           'Invalid token credentials: "nonce" is missing')
       end
 
       it 'fails if auth is not defined' do
         expect do
-          HTTP::TokenAuth.new token: 'h480djs93hd8',
-                              coverage: :base,
-                              nonce: 'dj83hs9s',
-                              timestamp: 137131200
-        end.to raise_error(HTTP::TokenAuthArgumentError).with_message(
+          Credentials.new token: 'h480djs93hd8',
+                          coverage: :base,
+                          nonce: 'dj83hs9s',
+                          timestamp: 137131200
+        end.to raise_error(MissingArgumentError).with_message(
           'Invalid token credentials: "auth" is missing')
       end
 
       it 'fails if timestamp is not defined' do
         expect do
-          HTTP::TokenAuth.new token: 'h480djs93hd8',
-                              coverage: :base,
-                              nonce: 'dj83hs9s',
-                              auth: 'djosJKDKJSD8743243/jdk33klY='
-        end.to raise_error(HTTP::TokenAuthArgumentError).with_message(
+          Credentials.new token: 'h480djs93hd8',
+                          coverage: :base,
+                          nonce: 'dj83hs9s',
+                          auth: 'djosJKDKJSD8743243/jdk33klY='
+        end.to raise_error(MissingArgumentError).with_message(
           'Invalid token credentials: "timestamp" is missing')
       end
     end
 
     describe 'without using a cryptographic algorithm' do
       it 'builds it if coverage is "none"' do
-        credentials = HTTP::TokenAuth.new token: 'h480djs93hd8',
-                                          coverage: nil
+        credentials = Credentials.new token: 'h480djs93hd8',
+                                      coverage: nil
 
         header = credentials.to_header
         expect(header).to start_with('Token')
@@ -141,7 +143,7 @@ describe HTTP::TokenAuth do
       end
 
       it 'builds it if coverage is not defined' do
-        credentials = HTTP::TokenAuth.new token: 'h480djs93hd8'
+        credentials = Credentials.new token: 'h480djs93hd8'
 
         header = credentials.to_header
         expect(header).to start_with('Token')
