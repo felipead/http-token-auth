@@ -1,5 +1,10 @@
 module HTTP
   module TokenAuth
+    def self.parse_authentication_header(header)
+      parser = AuthenticationHeaderParser.new
+      parser.parse(header)
+    end
+
     class AuthenticationHeaderParsingError < StandardError
       def initialize(submessage)
         super(%(Error parsing "Authorization" header with token schema: #{submessage}))
@@ -46,11 +51,6 @@ module HTTP
       def parse_timestamp(timestamp)
         timestamp.nil? ? nil : timestamp.to_i
       end
-    end
-
-    def self.parse_authentication_header(header)
-      parser = AuthenticationHeaderParser.new
-      parser.parse(header)
     end
   end
 end
