@@ -3,7 +3,7 @@ require 'http/token_auth'
 include HTTP::TokenAuth
 
 describe Credentials do
-  describe 'building an "Authentication" HTTP header with the token scheme' do
+  describe 'building an "Authentication" HTTP request header with the token scheme' do
     it 'fails if token is not defined' do
       expect do
         Credentials.new token: nil,

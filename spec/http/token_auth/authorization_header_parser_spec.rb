@@ -32,7 +32,7 @@ describe HTTP::TokenAuth::AuthorizationHeaderParser do
       /"token" is missing/)
   end
 
-  describe 'given the value of an "Authorization" HTTP header with the token scheme' do
+  describe 'given the value of an "Authorization" HTTP request header with the token scheme' do
     describe 'using a cryptographic algorithm' do
       { 'base' => :base, 'base+body-sha-256' => :base_body_sha_256 }.each do |name, symbol|
         it %(parses it if coverage is "#{name}") do
