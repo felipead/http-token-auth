@@ -1,20 +1,20 @@
 module HTTP
   module TokenAuth
-    def self.parse_authentication_header(header)
-      parser = AuthenticationHeaderParser.new
+    def self.parse_authorization_header(header)
+      parser = AuthorizationHeaderParser.new
       parser.parse(header)
     end
 
-    class AuthenticationHeaderParsingError < StandardError
+    class AuthorizationHeaderParsingError < StandardError
       def initialize(submessage)
-        super(%(Error parsing "Authorization" header with token schema: #{submessage}))
+        super(%(Error parsing "Authorization" HTTP header with token scheme: #{submessage}))
       end
     end
 
-    class AuthenticationHeaderParser
+    class AuthorizationHeaderParser
       def parse(header)
-        schema, attributes_string = split(header)
-        raise HeaderParsingError, "Invalid schema #{schema}" unless schema == 'Token'
+        scheme, attributes_string = split(header)
+        raise AuthorizationHeaderParsingError, "Invalid scheme #{scheme}" unless scheme == 'Token'
         build_credentials parse_attributes(attributes_string)
       end
 
@@ -44,7 +44,7 @@ module HTTP
         when 'none' then nil
         when 'base' then :base
         when 'base+body-sha-256' then :base_body_sha_256
-        else raise AuthenticationHeaderParsingError, %(Invalid coverage "#{coverage}")
+        else raise AuthorizationHeaderParsingError, %(Invalid coverage "#{coverage}")
         end
       end
 
