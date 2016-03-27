@@ -138,9 +138,9 @@ The following cryptographic authentication methods are defined in the specificat
 
 #### Without a Cryptographic Algorithm
 
-A nil `coverage` parameter translates to `coverage="none"` when building the header. However, the specification states that if coverage is "none", then it can be ommited.
+A nil `coverage` parameter translates to `coverage="none"` when building the header. However, the specification states that if coverage is `none`, then it can be ommited from the header string.
 
-For a "none" coverage, the `nonce`, `auth` and `timestamp` attributes are not used and should be ommitted.
+For a `none` coverage, the `nonce`, `auth` and `timestamp` attributes are not used and should be ommitted.
 
   ```ruby
   require 'http/token_auth'
@@ -154,9 +154,9 @@ For a "none" coverage, the `nonce`, `auth` and `timestamp` attributes are not us
 
 #### With a Cryptographic Algorithm
 
-A cryptographic algorithm is used if coverage is set to `:basic` or `:base_body_sha_256`, which translates to `coverage="base"` and `coverage="base+body-sha-256"` respectively.
+A cryptographic algorithm is used if coverage is set to `:basic` or `:base_body_sha_256`, which translates to the `coverage="base"` and `coverage="base+body-sha-256"` header attributes, respectively.
 
-In this case, it is mandatory to specify the values of the `nonce`, `auth` and `timestamp` attributes. Details on how to fill those attributes depend on the cryptographic algorithm being used, as defined in the specification.
+In this case, it is mandatory to specify the values of the `nonce`, `auth` and `timestamp` attributes. Details on how to fill those attributes depend on the cryptographic algorithm being used and can be found in the specification.
 
   ```ruby
   require 'http/token_auth'
