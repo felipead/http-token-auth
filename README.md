@@ -126,7 +126,7 @@ Parsing a Token Access Authentication header:
           auth="djosJKDKJSD8743243/jdk33klY="
   EOS
 
-  credentials = HTTP::TokenAuth::Credentials.parse_header(header)
+  credentials = HTTP::TokenAuth.parse_authentication_header(header)
   credentials.token     # "h480djs93hd8"
   credentials.coverage  # "base"
   credentials.timestamp # "137131200"
