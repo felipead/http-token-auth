@@ -27,7 +27,9 @@ The following sequence diagram illustrates the steps that need to happen for a s
 
 ![Successful Token Access Authentication Diagram](https://rawgit.com/felipead/http-token-auth/master/doc/successful-token-authentication-diagram.svg)
 
-If an unadvertised client makes a HTTP request to the service without providing the correct token credentials, service is denied. In this case, the response should use the `WWW-Authenticate` header to instruct the client on how to obtain the token credentials.
+If an unadvertised client makes a HTTP request to the service without providing token credentials, service is denied. The server sends a `401 Unauthorized` response with a `WWW-Authenticate` header containing the authentication challenge, which instructs the client on how to acquire token credentials.
+
+![Service Denied Without Token Authorization Diagram](https://rawgit.com/felipead/http-token-auth/master/doc/service-denied-without-token-diagram.svg)
 
 To protect itself against brute force or [DoS attacks](https://en.wikipedia.org/wiki/Denial-of-service_attack), the server should also throttle or reject consecutive requests with invalid token credentials coming from the same host.
 
@@ -175,7 +177,7 @@ In this case, it is mandatory to specify the values of the `nonce`, `auth` and `
   #       auth="djosJKDKJSD8743243/jdk33klY=",
   #       timestamp="137131200"
   ```
-  
+
 ## Installation
 
 Add this line to your application's Gemfile:
