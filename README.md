@@ -208,6 +208,9 @@ Running code linter:
 
     $ bundle exec rubocop
 
+## Contributing
+
+Bug reports and pull requests are welcome on GitHub at https://github.com/felipead/http-token-auth.
 
 ## License
 
