@@ -128,8 +128,8 @@ The following cryptographic authentication methods are defined in the specificat
 
   credentials = HTTP::TokenAuth.parse_authorization_header(header)
   credentials.token     # "h480djs93hd8"
-  credentials.coverage  # "base"
-  credentials.timestamp # "137131200"
+  credentials.coverage  # :base
+  credentials.timestamp # 137131200
   credentials.nonce     # "dj83hs9s"
   credentials.auth      # "djosJKDKJSD8743243/jdk33klY="
   ```
@@ -175,9 +175,7 @@ In this case, it is mandatory to specify the values of the `nonce`, `auth` and `
   #       auth="djosJKDKJSD8743243/jdk33klY=",
   #       timestamp="137131200"
   ```
-
-Building an `Authorization` HTTP header with the token scheme and an cryptographic algorithm:
-
+  
 ## Installation
 
 Add this line to your application's Gemfile:
