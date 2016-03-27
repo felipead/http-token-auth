@@ -200,13 +200,9 @@ Install required gems:
 
     $ bundle install
 
-Running tests:
+Running [rspec](http://rspec.info/) tests and checking for [rubocop](http://batsov.com/rubocop/) violations:
 
-    $ bundle exec rspec
-
-Running code linter:
-
-    $ bundle exec rubocop
+    $ bundle exec rake
 
 ## Contributing
 

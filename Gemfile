@@ -8,4 +8,5 @@ end
 
 group :development do
   gem 'rubocop'
+  gem 'rake'
 end
