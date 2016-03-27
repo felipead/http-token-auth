@@ -140,7 +140,7 @@ The following cryptographic authentication methods are defined in the specificat
 
 A nil `coverage` parameter translates to `coverage="none"` when building the header. However, the specification states that if coverage is `none`, then it can be ommited from the header string.
 
-For a `none` coverage, the `nonce`, `auth` and `timestamp` attributes are not used and should be ommitted.
+If coverage is `none`, the `nonce`, `auth` and `timestamp` attributes are not used and should not be included in the header.
 
   ```ruby
   require 'http/token_auth'
