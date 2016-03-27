@@ -1,6 +1,6 @@
 module HTTP
   module TokenAuth
-    class MissingArgumentError < StandardError
+    class MissingCredentialsArgumentError < StandardError
       def initialize(argument_name)
         super(%(Invalid token credentials: "#{argument_name}" is missing))
       end
@@ -41,19 +41,19 @@ module HTTP
       end
 
       def must_have_token
-        raise MissingArgumentError, 'token' if @token.nil? || @token.empty?
+        raise MissingCredentialsArgumentError, 'token' if @token.nil? || @token.empty?
       end
 
       def must_have_nonce
-        raise MissingArgumentError, 'nonce' if @nonce.nil? || @nonce.empty?
+        raise MissingCredentialsArgumentError, 'nonce' if @nonce.nil? || @nonce.empty?
       end
 
       def must_have_auth
-        raise MissingArgumentError, 'auth' if @auth.nil? || @auth.empty?
+        raise MissingCredentialsArgumentError, 'auth' if @auth.nil? || @auth.empty?
       end
 
       def must_have_timestamp
-        raise MissingArgumentError, 'timestamp' if @timestamp.nil?
+        raise MissingCredentialsArgumentError, 'timestamp' if @timestamp.nil?
       end
 
       def coverage_name

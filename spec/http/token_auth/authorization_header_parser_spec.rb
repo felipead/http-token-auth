@@ -11,6 +11,27 @@ describe HTTP::TokenAuth::AuthorizationHeaderParser do
       /Invalid scheme "Basic"/)
   end
 
+  it 'fails if no attributes are provided' do
+    header = 'Token'
+    expect do
+      HTTP::TokenAuth.parse_authorization_header(header)
+    end.to raise_error(HTTP::TokenAuth::AuthorizationHeaderParsingError).with_message(
+      /Header has no attributes/)
+  end
+
+  it 'fails if "token" is missing' do
+    header = <<-EOS
+      Token coverage="base",
+            nonce="dj83hs9s",
+            auth="djosJKDKJSD8743243/jdk33klY=",
+            timestamp="137131200"
+    EOS
+    expect do
+      HTTP::TokenAuth.parse_authorization_header(header)
+    end.to raise_error(HTTP::TokenAuth::AuthorizationHeaderParsingError).with_message(
+      /"token" is missing/)
+  end
+
   describe 'given the value of an "Authorization" HTTP header with the token scheme' do
     describe 'using a cryptographic algorithm' do
       { 'base' => :base, 'base+body-sha-256' => :base_body_sha_256 }.each do |name, symbol|
@@ -31,7 +52,7 @@ describe HTTP::TokenAuth::AuthorizationHeaderParser do
         end
       end
 
-      it 'fails if coverage is not recognized' do
+      it 'fails if "coverage" is not recognized' do
         header = <<-EOS
           Token token="h480djs93hd8",
                 coverage="invalid",
@@ -43,6 +64,45 @@ describe HTTP::TokenAuth::AuthorizationHeaderParser do
           HTTP::TokenAuth.parse_authorization_header(header)
         end.to raise_error(HTTP::TokenAuth::AuthorizationHeaderParsingError).with_message(
           /Invalid coverage "invalid"/)
+      end
+
+      it 'fails if "nonce" is missing' do
+        header = <<-EOS
+          Token token="h480djs93hd8",
+                coverage="base",
+                auth="djosJKDKJSD8743243/jdk33klY=",
+                timestamp="137131200"
+        EOS
+        expect do
+          HTTP::TokenAuth.parse_authorization_header(header)
+        end.to raise_error(HTTP::TokenAuth::AuthorizationHeaderParsingError).with_message(
+          /"nonce" is missing/)
+      end
+
+      it 'fails if "auth" is missing' do
+        header = <<-EOS
+          Token token="h480djs93hd8",
+                coverage="base",
+                nonce="dj83hs9s",
+                timestamp="137131200"
+        EOS
+        expect do
+          HTTP::TokenAuth.parse_authorization_header(header)
+        end.to raise_error(HTTP::TokenAuth::AuthorizationHeaderParsingError).with_message(
+          /"auth" is missing/)
+      end
+
+      it 'fails if "timestamp" is missing' do
+        header = <<-EOS
+          Token token="h480djs93hd8",
+                coverage="base",
+                nonce="dj83hs9s",
+                auth="djosJKDKJSD8743243/jdk33klY="
+        EOS
+        expect do
+          HTTP::TokenAuth.parse_authorization_header(header)
+        end.to raise_error(HTTP::TokenAuth::AuthorizationHeaderParsingError).with_message(
+          /"timestamp" is missing/)
       end
     end
 

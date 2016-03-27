@@ -13,9 +13,12 @@ module HTTP
 
     class AuthorizationHeaderParser
       def parse(header)
-        scheme, attributes_string = split(header)
-        raise AuthorizationHeaderParsingError, %(Invalid scheme "#{scheme}") unless scheme == 'Token'
-        build_credentials parse_attributes(attributes_string)
+        scheme, attributes = split(header)
+        raise AuthorizationHeaderParsingError,
+              'Header has no attributes' if attributes.nil?
+        raise AuthorizationHeaderParsingError,
+              %(Invalid scheme "#{scheme}") unless scheme == 'Token'
+        build_credentials parse_attributes(attributes)
       end
 
       def split(header)
@@ -36,6 +39,8 @@ module HTTP
                         nonce: attributes[:nonce],
                         auth: attributes[:auth],
                         timestamp: parse_timestamp(attributes[:timestamp])
+      rescue MissingCredentialsArgumentError => e
+        raise AuthorizationHeaderParsingError, e.message
       end
 
       def parse_coverage(coverage)
