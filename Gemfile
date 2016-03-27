@@ -1,5 +1,7 @@
 source 'http://rubygems.org/'
 
+gemspec
+
 group :test do
   gem 'rspec'
 end
@@ -7,5 +9,3 @@ end
 group :development do
   gem 'rubocop'
 end
-
-gemspec
