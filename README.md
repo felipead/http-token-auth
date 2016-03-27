@@ -131,7 +131,7 @@ Parsing a Token Access Authentication header:
   credentials.coverage  # "base"
   credentials.timestamp # "137131200"
   credentials.nonce     # "dj83hs9s"
-  credentials.auth      # "djosJKDKJSD8743243"
+  credentials.auth      # "djosJKDKJSD8743243/jdk33klY="
   ```
 
 Building a Token Access Authentication header:
@@ -142,7 +142,7 @@ Building a Token Access Authentication header:
   credentials = HTTP::TokenAuth::Credentials.new token: 'h480djs93hd8',
                                                  coverage: :base_body_sha_256,
                                                  nonce: 'dj83hs9s',
-                                                 auth: 'djosJKDKJSD8743243'
+                                                 auth: 'djosJKDKJSD8743243/jdk33klY='
                                                  timestamp: 137131200,
 
   credentials.to_header
@@ -150,7 +150,7 @@ Building a Token Access Authentication header:
   # Token token="h480djs93hd8",
   #       coverage="base+body-sha-256",
   #       nonce="dj83hs9s",
-  #       auth="djosJKDKJSD8743243",
+  #       auth="djosJKDKJSD8743243/jdk33klY=",
   #       timestamp="137131200"
   ```
 
