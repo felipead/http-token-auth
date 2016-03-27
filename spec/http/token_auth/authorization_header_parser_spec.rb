@@ -1,6 +1,16 @@
 require 'http/token_auth'
 
 describe HTTP::TokenAuth::AuthorizationHeaderParser do
+  it 'fails to parse if scheme is not "Token"' do
+    header = <<-EOS
+      Basic QWxhZGRpbjpPcGVuU2VzYW1l
+    EOS
+    expect do
+      HTTP::TokenAuth.parse_authorization_header(header)
+    end.to raise_error(HTTP::TokenAuth::AuthorizationHeaderParsingError).with_message(
+      /Invalid scheme "Basic"/)
+  end
+
   describe 'given the value of an "Authorization" HTTP header with the token scheme' do
     describe 'using a cryptographic algorithm' do
       { 'base' => :base, 'base+body-sha-256' => :base_body_sha_256 }.each do |name, symbol|

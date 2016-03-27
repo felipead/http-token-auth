@@ -14,7 +14,7 @@ module HTTP
     class AuthorizationHeaderParser
       def parse(header)
         scheme, attributes_string = split(header)
-        raise AuthorizationHeaderParsingError, "Invalid scheme #{scheme}" unless scheme == 'Token'
+        raise AuthorizationHeaderParsingError, %(Invalid scheme "#{scheme}") unless scheme == 'Token'
         build_credentials parse_attributes(attributes_string)
       end
 
