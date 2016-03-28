@@ -60,6 +60,17 @@ describe WWWAuthenticateHeaderParser do
         expect(challenge.timestamp).to eq(137131200)
       end
 
+      it 'defaults to "base" coverage if coverage is not defined' do
+        header = <<-EOS
+          Token realm="http://example.com"
+                timestamp="137131200"
+          EOS
+        challenge = HTTP::TokenAuth.parse_www_authenticate_header(header)
+        expect(challenge.realm).to eq('http://example.com')
+        expect(challenge.supported_coverages).to contain_exactly(:base)
+        expect(challenge.timestamp).to eq(137131200)
+      end
+
       it 'fails if "timestamp" is missing' do
         header = <<-EOS
           Token realm="http://example.com",

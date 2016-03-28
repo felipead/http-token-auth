@@ -28,6 +28,7 @@ module HTTP
       end
 
       def parse_coverage(string)
+        return [:base] if string.nil?
         string.split.map do |token|
           case token
           when 'none' then :none
