@@ -3,7 +3,7 @@ require 'http/token_auth'
 include HTTP::TokenAuth
 
 describe WWWAuthenticateHeaderParser do
-  it 'fails if "realm" is not defined' do
+  it 'fails if "realm" is missing' do
     header = 'Token coverage="none"'
     expect do
       HTTP::TokenAuth.parse_www_authenticate_header(header)
