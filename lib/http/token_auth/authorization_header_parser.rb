@@ -6,31 +6,15 @@ module HTTP
     end
 
     class AuthorizationHeaderParsingError < StandardError
-      def initialize(submessage)
-        super(%(Error parsing "Authorization" HTTP header with token scheme: #{submessage}))
-      end
     end
 
     class AuthorizationHeaderParser
+      def initialize
+        @scheme_parser = SchemeParser.new
+      end
+
       def parse(header)
-        scheme, attributes = split(header)
-        raise AuthorizationHeaderParsingError,
-              'Header has no attributes' if attributes.nil?
-        raise AuthorizationHeaderParsingError,
-              %(Invalid scheme "#{scheme}") unless scheme == 'Token'
-        build_credentials parse_attributes(attributes)
-      end
-
-      def split(header)
-        header.split(' ', 2)
-      end
-
-      def parse_attributes(string)
-        attributes = {}
-        string.scan(/(\w+)="([^"]*)"/).each do |group|
-          attributes[group[0].to_sym] = group[1]
-        end
-        attributes
+        build_credentials @scheme_parser.parse(header)
       end
 
       def build_credentials(attributes)

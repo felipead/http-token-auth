@@ -1,24 +1,8 @@
 require 'http/token_auth'
 
-describe HTTP::TokenAuth::AuthorizationHeaderParser do
-  it 'fails to parse if scheme is not "Token"' do
-    header = <<-EOS
-      Basic QWxhZGRpbjpPcGVuU2VzYW1l
-    EOS
-    expect do
-      HTTP::TokenAuth.parse_authorization_header(header)
-    end.to raise_error(HTTP::TokenAuth::AuthorizationHeaderParsingError).with_message(
-      /Invalid scheme "Basic"/)
-  end
+include HTTP::TokenAuth
 
-  it 'fails if no attributes are provided' do
-    header = 'Token'
-    expect do
-      HTTP::TokenAuth.parse_authorization_header(header)
-    end.to raise_error(HTTP::TokenAuth::AuthorizationHeaderParsingError).with_message(
-      /Header has no attributes/)
-  end
-
+describe AuthorizationHeaderParser do
   describe 'given the value of an "Authorization" HTTP request header with the token scheme' do
     it 'fails if "token" is missing' do
       header = <<-EOS
@@ -29,8 +13,7 @@ describe HTTP::TokenAuth::AuthorizationHeaderParser do
       EOS
       expect do
         HTTP::TokenAuth.parse_authorization_header(header)
-      end.to raise_error(HTTP::TokenAuth::AuthorizationHeaderParsingError).with_message(
-        /"token" is missing/)
+      end.to raise_error(AuthorizationHeaderParsingError).with_message(/"token" is missing/)
     end
 
     it 'fails if "coverage" is different than "none", "base" or "base+body-sha-256"' do
@@ -43,7 +26,7 @@ describe HTTP::TokenAuth::AuthorizationHeaderParser do
       EOS
       expect do
         HTTP::TokenAuth.parse_authorization_header(header)
-      end.to raise_error(HTTP::TokenAuth::AuthorizationHeaderParsingError).with_message(
+      end.to raise_error(AuthorizationHeaderParsingError).with_message(
         /Unsupported coverage "invalid"/)
     end
 
@@ -75,8 +58,7 @@ describe HTTP::TokenAuth::AuthorizationHeaderParser do
         EOS
         expect do
           HTTP::TokenAuth.parse_authorization_header(header)
-        end.to raise_error(HTTP::TokenAuth::AuthorizationHeaderParsingError).with_message(
-          /"nonce" is missing/)
+        end.to raise_error(AuthorizationHeaderParsingError).with_message(/"nonce" is missing/)
       end
 
       it 'fails if "auth" is missing' do
@@ -88,8 +70,7 @@ describe HTTP::TokenAuth::AuthorizationHeaderParser do
         EOS
         expect do
           HTTP::TokenAuth.parse_authorization_header(header)
-        end.to raise_error(HTTP::TokenAuth::AuthorizationHeaderParsingError).with_message(
-          /"auth" is missing/)
+        end.to raise_error(AuthorizationHeaderParsingError).with_message(/"auth" is missing/)
       end
 
       it 'fails if "timestamp" is missing' do
@@ -101,8 +82,7 @@ describe HTTP::TokenAuth::AuthorizationHeaderParser do
         EOS
         expect do
           HTTP::TokenAuth.parse_authorization_header(header)
-        end.to raise_error(HTTP::TokenAuth::AuthorizationHeaderParsingError).with_message(
-          /"timestamp" is missing/)
+        end.to raise_error(AuthorizationHeaderParsingError).with_message(/"timestamp" is missing/)
       end
     end
 

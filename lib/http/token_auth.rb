@@ -1,4 +1,6 @@
 require 'http/token_auth/version'
 require 'http/token_auth/credentials'
 require 'http/token_auth/challenge'
+require 'http/token_auth/scheme_parser'
 require 'http/token_auth/authorization_header_parser'
+require 'http/token_auth/www_authenticate_header_parser'
