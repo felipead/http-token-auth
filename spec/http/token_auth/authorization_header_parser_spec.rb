@@ -19,34 +19,34 @@ describe HTTP::TokenAuth::AuthorizationHeaderParser do
       /Header has no attributes/)
   end
 
-  it 'fails if "token" is missing' do
-    header = <<-EOS
-      Token coverage="base",
-            nonce="dj83hs9s",
-            auth="djosJKDKJSD8743243/jdk33klY=",
-            timestamp="137131200"
-    EOS
-    expect do
-      HTTP::TokenAuth.parse_authorization_header(header)
-    end.to raise_error(HTTP::TokenAuth::AuthorizationHeaderParsingError).with_message(
-      /"token" is missing/)
-  end
-
-  it 'fails if "coverage" is different than "none", "base" or "base+body-sha-256"' do
-    header = <<-EOS
-      Token token="h480djs93hd8",
-            coverage="invalid",
-            nonce="dj83hs9s",
-            auth="djosJKDKJSD8743243/jdk33klY=",
-            timestamp="137131200"
-    EOS
-    expect do
-      HTTP::TokenAuth.parse_authorization_header(header)
-    end.to raise_error(HTTP::TokenAuth::AuthorizationHeaderParsingError).with_message(
-      /Unsupported coverage "invalid"/)
-  end
-
   describe 'given the value of an "Authorization" HTTP request header with the token scheme' do
+    it 'fails if "token" is missing' do
+      header = <<-EOS
+        Token coverage="base",
+              nonce="dj83hs9s",
+              auth="djosJKDKJSD8743243/jdk33klY=",
+              timestamp="137131200"
+      EOS
+      expect do
+        HTTP::TokenAuth.parse_authorization_header(header)
+      end.to raise_error(HTTP::TokenAuth::AuthorizationHeaderParsingError).with_message(
+        /"token" is missing/)
+    end
+
+    it 'fails if "coverage" is different than "none", "base" or "base+body-sha-256"' do
+      header = <<-EOS
+        Token token="h480djs93hd8",
+              coverage="invalid",
+              nonce="dj83hs9s",
+              auth="djosJKDKJSD8743243/jdk33klY=",
+              timestamp="137131200"
+      EOS
+      expect do
+        HTTP::TokenAuth.parse_authorization_header(header)
+      end.to raise_error(HTTP::TokenAuth::AuthorizationHeaderParsingError).with_message(
+        /Unsupported coverage "invalid"/)
+    end
+
     describe 'using a cryptographic algorithm' do
       { 'base' => :base, 'base+body-sha-256' => :base_body_sha_256 }.each do |name, symbol|
         it %(parses it if coverage is "#{name}") do
