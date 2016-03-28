@@ -142,12 +142,13 @@ The following cryptographic authentication methods are defined in the specificat
 
 A nil `coverage` parameter translates to `coverage="none"` when building the header. However, the specification states that if coverage is `none`, then it can be ommited from the header string.
 
-If coverage is `none`, the `nonce`, `auth` and `timestamp` attributes are not used and should not be included in the header.
+If coverage is "none", the `nonce`, `auth` and `timestamp` attributes are not used and should not be included in the header.
 
   ```ruby
   require 'http/token_auth'
 
-  credentials = HTTP::TokenAuth::Credentials.new token: 'h480djs93hd8'
+  credentials = HTTP::TokenAuth::Credentials.new token: 'h480djs93hd8',
+                                                 coverage: :none
 
   credentials.to_header
 
@@ -175,6 +176,61 @@ In this case, it is mandatory to specify the values of the `nonce`, `auth` and `
   #       coverage="base+body-sha-256",
   #       nonce="dj83hs9s",
   #       auth="djosJKDKJSD8743243/jdk33klY=",
+  #       timestamp="137131200"
+  ```
+
+### Parsing a `WWW-Authenticate` Header
+
+  ```ruby
+  require 'http/token_auth'
+
+  header = <<-EOS
+    Token realm="http://example.com",
+          coverage="base base+body-sha-256",
+          timestamp="137131200"
+  EOS
+
+  challenge = HTTP::TokenAuth.parse_www_authenticate_header(header)
+  challenge.realm                # "http://example.com"
+  challenge.supported_coverages  # [:base, :base_body_sha_256]
+  challenge.timestamp            # 137131200
+  ```
+
+### Building a `WWW-Authenticate` Header
+
+#### Without a Cryptographic Algorithm
+
+To create an authentication challenge without support for a cryptographic algorithm, pass `:none` as an element of the list `supported_coverages`. If not set, this list defaults to "base" as dictated by the specification, which requires a cryptographic algorithm.
+
+It's also mandatory to specify the `realm` attribute with the authentication realm URI.
+
+  ```ruby
+  require 'http/token_auth'
+
+  challenge = HTTP::TokenAuth::Challenge.new realm: 'http://example.com'
+                                             supported_coverages: [:none]
+
+  challenge.to_header
+
+  # Token realm="http://example.com",
+  #       coverage="none"
+  ```
+
+#### With a Cryptographic Algorithm
+
+To create an authentication challenge with support for a cryptographic algorithm, you can pass `:base`, `:base_body_sha256` or both as elements of the list `supported_coverages`. It's also mandatory to specify the `realm` attribute with the authenticaiton realm URI and the `timestamp` attribute with the server's Unix timestamp.
+
+  ```ruby
+  require 'http/token_auth'
+
+  challenge = HTTP::TokenAuth::Challenge.new realm: 'http://example.com',
+                                             supported_coverages: [:base, :base_body_sha_256],
+                                             timestamp: 137131200
+
+  challenge.to_header
+
+  # Token realm="http://example.com",
+  #       coverage="base base+body-sha-256",
   #       timestamp="137131200"
   ```
 
