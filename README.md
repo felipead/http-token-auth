@@ -170,8 +170,8 @@ In this case, it is mandatory to specify the values of the `nonce`, `auth` and `
   credentials = HTTP::TokenAuth::Credentials.new token: 'h480djs93hd8',
                                                  coverage: :base_body_sha_256,
                                                  nonce: 'dj83hs9s',
-                                                 auth: 'djosJKDKJSD8743243/jdk33klY='
-                                                 timestamp: 137131200,
+                                                 auth: 'djosJKDKJSD8743243/jdk33klY=',
+                                                 timestamp: 137131200
 
   credentials.to_header
 
@@ -210,7 +210,7 @@ It's also mandatory to specify the `realm` attribute with the authentication rea
   ```ruby
   require 'http/token_auth'
 
-  challenge = HTTP::TokenAuth::Challenge.new realm: 'http://example.com'
+  challenge = HTTP::TokenAuth::Challenge.new realm: 'http://example.com',
                                              supported_coverages: [:none]
 
   challenge.to_header
