@@ -44,12 +44,13 @@ module HTTP
       end
 
       def parse_coverage(coverage)
-        return nil if coverage.nil? || coverage.empty?
         case coverage
-        when 'none' then nil
+        when nil
+        when ''
+        when 'none' then :none
         when 'base' then :base
         when 'base+body-sha-256' then :base_body_sha_256
-        else raise AuthorizationHeaderParsingError, %(Invalid coverage "#{coverage}")
+        else raise AuthorizationHeaderParsingError, %(Unsupported coverage "#{coverage}")
         end
       end
 

@@ -1,8 +1,14 @@
 module HTTP
   module TokenAuth
-    class MissingCredentialsArgumentError < StandardError
+    class InvalidCredentialsError < StandardError
+      def initialize(message)
+        super("Invalid token credentials: #{message}")
+      end
+    end
+
+    class MissingCredentialsArgumentError < InvalidCredentialsError
       def initialize(argument_name)
-        super(%(Invalid token credentials: "#{argument_name}" is missing))
+        super(%("#{argument_name}" is missing))
       end
     end
 
@@ -11,7 +17,7 @@ module HTTP
 
       def initialize(token:, coverage: nil, nonce: nil, auth: nil, timestamp: nil)
         @token = token
-        @coverage = coverage
+        @coverage = coverage.nil? ? :none : coverage
         @nonce = nonce
         @auth = auth
         @timestamp = timestamp
@@ -21,7 +27,7 @@ module HTTP
       def to_header
         attributes = []
         attributes << %(token="#{@token}")
-        unless coverage.nil?
+        unless coverage == :none
           attributes << %(coverage="#{coverage_name}")
           attributes << %(nonce="#{@nonce}")
           attributes << %(auth="#{@auth}")
@@ -34,10 +40,23 @@ module HTTP
 
       def validate_itself
         must_have_token
-        return if @coverage.nil?
-        must_have_nonce
-        must_have_auth
-        must_have_timestamp
+        must_have_valid_coverage
+        unless @coverage == :none
+          must_have_nonce
+          must_have_auth
+          must_have_timestamp
+        end
+      end
+
+      def must_have_valid_coverage
+        case @coverage
+        when :none
+        when :base
+        when :base_body_sha_256
+          return
+        else
+          raise InvalidCredentialsError, %(unsupported "#{@coverage}" coverage)
+        end
       end
 
       def must_have_token
