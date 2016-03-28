@@ -1,5 +1,7 @@
 # HTTP Token Access Authentication
 
+[![Build Status](https://snap-ci.com/felipead/http-token-auth/branch/master/build_image)](https://snap-ci.com/felipead/http-token-auth/branch/master)
+
 Ruby gem to handle the [HTTP Token Access Authentication](http://tools.ietf.org/html/draft-hammer-http-token-auth-01), which is still a draft specification and may change in the future.
 
 It supports both **parsing** and **building** a HTTP `Authentication` request header and a `WWW-Authenticate` response header using the token scheme.
