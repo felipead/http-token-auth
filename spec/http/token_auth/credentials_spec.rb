@@ -11,8 +11,7 @@ describe Credentials do
                         nonce: 'dj83hs9s',
                         auth: 'djosJKDKJSD8743243/jdk33klY=',
                         timestamp: 137131200
-      end.to raise_error(MissingCredentialsArgumentError).with_message(
-        'Invalid token credentials: "token" is missing')
+      end.to raise_error(CredentialsArgumentError).with_message('"token" is missing')
     end
 
     it 'fails if coverage is not "none", "base" or "base+body-sha-256"' do
@@ -22,8 +21,7 @@ describe Credentials do
                         nonce: 'dj83hs9s',
                         auth: 'djosJKDKJSD8743243/jdk33klY=',
                         timestamp: 137131200
-      end.to raise_error(InvalidCredentialsError).with_message(
-        'Invalid token credentials: unsupported "invalid" coverage')
+      end.to raise_error(CredentialsArgumentError).with_message('unsupported "invalid" coverage')
     end
 
     describe 'using a cryptographic algorithm' do
@@ -51,8 +49,7 @@ describe Credentials do
                           coverage: :base,
                           auth: 'djosJKDKJSD8743243/jdk33klY=',
                           timestamp: 137131200
-        end.to raise_error(MissingCredentialsArgumentError).with_message(
-          'Invalid token credentials: "nonce" is missing')
+        end.to raise_error(CredentialsArgumentError).with_message('"nonce" is missing')
       end
 
       it 'fails if auth is not defined' do
@@ -61,8 +58,7 @@ describe Credentials do
                           coverage: :base,
                           nonce: 'dj83hs9s',
                           timestamp: 137131200
-        end.to raise_error(MissingCredentialsArgumentError).with_message(
-          'Invalid token credentials: "auth" is missing')
+        end.to raise_error(CredentialsArgumentError).with_message('"auth" is missing')
       end
 
       it 'fails if timestamp is not defined' do
@@ -71,8 +67,7 @@ describe Credentials do
                           coverage: :base,
                           nonce: 'dj83hs9s',
                           auth: 'djosJKDKJSD8743243/jdk33klY='
-        end.to raise_error(MissingCredentialsArgumentError).with_message(
-          'Invalid token credentials: "timestamp" is missing')
+        end.to raise_error(CredentialsArgumentError).with_message('"timestamp" is missing')
       end
     end
 

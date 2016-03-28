@@ -23,7 +23,7 @@ module HTTP
                         nonce: attributes[:nonce],
                         auth: attributes[:auth],
                         timestamp: parse_timestamp(attributes[:timestamp])
-      rescue MissingCredentialsArgumentError => e
+      rescue CredentialsArgumentError => e
         raise AuthorizationHeaderParsingError, e.message
       end
 

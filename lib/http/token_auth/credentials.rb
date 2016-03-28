@@ -1,15 +1,6 @@
 module HTTP
   module TokenAuth
-    class InvalidCredentialsError < StandardError
-      def initialize(message)
-        super("Invalid token credentials: #{message}")
-      end
-    end
-
-    class MissingCredentialsArgumentError < InvalidCredentialsError
-      def initialize(argument_name)
-        super(%("#{argument_name}" is missing))
-      end
+    class CredentialsArgumentError < StandardError
     end
 
     class Credentials
@@ -55,24 +46,24 @@ module HTTP
         when :base_body_sha_256
           return
         else
-          raise InvalidCredentialsError, %(unsupported "#{@coverage}" coverage)
+          raise CredentialsArgumentError, %(unsupported "#{@coverage}" coverage)
         end
       end
 
       def must_have_token
-        raise MissingCredentialsArgumentError, 'token' if @token.nil? || @token.empty?
+        raise CredentialsArgumentError, '"token" is missing' if @token.nil? || @token.empty?
       end
 
       def must_have_nonce
-        raise MissingCredentialsArgumentError, 'nonce' if @nonce.nil? || @nonce.empty?
+        raise CredentialsArgumentError, '"nonce" is missing' if @nonce.nil? || @nonce.empty?
       end
 
       def must_have_auth
-        raise MissingCredentialsArgumentError, 'auth' if @auth.nil? || @auth.empty?
+        raise CredentialsArgumentError, '"auth" is missing' if @auth.nil? || @auth.empty?
       end
 
       def must_have_timestamp
-        raise MissingCredentialsArgumentError, 'timestamp' if @timestamp.nil?
+        raise CredentialsArgumentError, '"timestamp" is missing' if @timestamp.nil?
       end
 
       def coverage_name
