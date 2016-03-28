@@ -27,19 +27,19 @@ module HTTP
         raise AuthorizationHeaderParsingError, e.message
       end
 
-      def parse_coverage(coverage)
-        case coverage
+      def parse_coverage(string)
+        case string
         when nil
         when ''
         when 'none' then :none
         when 'base' then :base
         when 'base+body-sha-256' then :base_body_sha_256
-        else raise AuthorizationHeaderParsingError, %(Unsupported coverage "#{coverage}")
+        else raise AuthorizationHeaderParsingError, %(Unsupported coverage "#{string}")
         end
       end
 
-      def parse_timestamp(timestamp)
-        timestamp.nil? ? nil : timestamp.to_i
+      def parse_timestamp(string)
+        string.nil? ? nil : string.to_i
       end
     end
   end

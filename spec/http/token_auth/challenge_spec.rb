@@ -36,7 +36,7 @@ describe Challenge do
       end
     end
 
-    describe 'with a cryptographic algorithm' do
+    describe 'using a cryptographic algorithm' do
       it 'builds it with only "base" as supported coverage' do
         challenge = Challenge.new realm: 'http://example.com',
                                   supported_coverages: [:base],
