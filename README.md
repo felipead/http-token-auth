@@ -4,9 +4,11 @@
 [![Coverage Status](https://coveralls.io/repos/github/felipead/http-token-auth/badge.svg?branch=master)](https://coveralls.io/github/felipead/http-token-auth?branch=master)
 [![Gem Version](https://badge.fury.io/rb/http-token-auth.svg)](https://badge.fury.io/rb/http-token-auth)
 
-Ruby gem to handle the [HTTP Token Access Authentication](http://tools.ietf.org/html/draft-hammer-http-token-auth-01), which is still a draft specification and may change in the future.
+Ruby gem to handle the [HTTP Token Access Authentication](http://tools.ietf.org/html/draft-hammer-http-token-auth-01), for securing HTTP-based service and microservice architectures using token credentials. It supports both **parsing** and **building** a HTTP `Authentication` request header and a `WWW-Authenticate` response header using the token scheme.
 
-It supports both **parsing** and **building** a HTTP `Authentication` request header and a `WWW-Authenticate` response header using the token scheme.
+Rather than being a complete opinionated authentication solution that only works with Rails or a specific HTTP framework, this library aims to be minimalistic and unobtrusive. This allows more flexibility and makes it compatible with virtually any HTTP servers and clients that run on the Ruby platform.
+
+This library does not authenticate users nor provide methods for obtaining token credentials. For that you can use another protocol, such as [OAuth](http://tools.ietf.org/html/rfc5849), which is implemented by the [Ruby OAuth](https://github.com/oauth-xx/oauth-ruby) gem.
 
 The following authentication methods are supported:
 
@@ -15,11 +17,9 @@ The following authentication methods are supported:
 - [ ] [`hmac-sha-256`](http://tools.ietf.org/html/draft-hammer-http-token-auth-01#section-7.3)
 - [ ] [`rsassa-pkcs1-v1.5-sha-256`](http://tools.ietf.org/html/draft-hammer-http-token-auth-01#section-7.4)
 
-Rather than being a complete opinionated authentication solution that only works with Rails or a specific HTTP framework, this library aims to be minimalistic and unobtrusive. This allows more flexibility and makes it compatible with virtually any HTTP servers and clients that run on the Ruby platform.
+Minimum Ruby version: `2.0.0`.
 
-This library does not authenticate users nor provide methods for obtaining token credentials. For that you can use another protocol, such as [OAuth](http://tools.ietf.org/html/rfc5849), which is implemented by the [Ruby OAuth](https://github.com/oauth-xx/oauth-ruby) gem.
-
-At the moment, only Ruby `2.0+` is supported.
+**WARNING**: HTTP Token Access Authentication is still a draft specification and may change in the future.
 
 ## Motivation
 
