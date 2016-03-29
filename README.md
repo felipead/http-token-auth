@@ -254,7 +254,11 @@ Or install it yourself as:
 
     $ gem install http-token-auth
 
-## Development
+## Contributing
+
+Bug reports and pull requests are welcome on [GitHub](https://github.com/felipead/http-token-auth). Before submitting pull requests, please follow the guidelines below.
+
+### Development
 
 Install required gems:
 
@@ -264,23 +268,21 @@ Running [rspec](http://rspec.info/) tests and checking for [rubocop](http://bats
 
     $ bundle exec rake
 
+### Continuous Integration
+
+This repository uses [Snap-CI](http://snap-ci.com), a [ThoughtWorks](http://thoughtworks.com) product, for continuous integration builds. You can check the status of the latest build [here](https://snap-ci.com/felipead/http-token-auth/branch/master).
+
 ### Code Coverage Reports
 
-This repository integrates with [coveralls.io](http://coveralls.io) for code coverage reports.
+This repository integrates with [coveralls.io](http://coveralls.io) for code coverage reports, which can be seen [here](https://coveralls.io/github/felipead/http-token-auth?branch=master).
 
-To submit a code coverage report to coveralls.io:
+Coverage reports are automatically submitted as part of the CI pipeline and the rake build tasks, as long as the following environment variable is set:
 
-- `export COVERALLS_REPO_TOKEN="YOUR COVERALLS TOKEN"`
-- `bundle exec converalls push`
+    export COVERALLS_REPO_TOKEN="YOUR COVERALLS REPO TOKEN"
 
-To view the code coverage report:
+To see the coverage report thorugh the command-line:
 
-- `bundle exec converalls open`
-
-
-## Contributing
-
-Bug reports and pull requests are welcome on GitHub at https://github.com/felipead/http-token-auth.
+    $ bundle exec converalls open
 
 ## License
 
