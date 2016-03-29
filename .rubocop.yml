@@ -3,6 +3,8 @@
 
 AllCops:
   TargetRubyVersion: 2.1
+  Exclude:
+    - http-token-auth.gemspec
 
 Style/NumericLiterals:
   Enabled: false
