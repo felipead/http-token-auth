@@ -1,8 +1,8 @@
 # HTTP Token Access Authentication
 
 [![Build Status](https://snap-ci.com/felipead/http-token-auth/branch/master/build_image)](https://snap-ci.com/felipead/http-token-auth/branch/master)
-[![Gem Version](https://badge.fury.io/rb/http-token-auth.svg)](https://badge.fury.io/rb/http-token-auth)
 [![Coverage Status](https://coveralls.io/repos/github/felipead/http-token-auth/badge.svg?branch=master)](https://coveralls.io/github/felipead/http-token-auth?branch=master)
+[![Gem Version](https://badge.fury.io/rb/http-token-auth.svg)](https://badge.fury.io/rb/http-token-auth)
 
 Ruby gem to handle the [HTTP Token Access Authentication](http://tools.ietf.org/html/draft-hammer-http-token-auth-01), which is still a draft specification and may change in the future.
 
