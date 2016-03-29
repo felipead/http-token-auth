@@ -13,4 +13,5 @@ ratings:
   paths:
   - "**.rb"
 exclude_paths:
+- spec/
 - http-token-auth.gemspec
