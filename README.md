@@ -4,7 +4,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/felipead/http-token-auth/badge.svg?branch=master)](https://coveralls.io/github/felipead/http-token-auth?branch=master)
 [![Gem Version](https://badge.fury.io/rb/http-token-auth.svg)](https://badge.fury.io/rb/http-token-auth)
 
-Ruby gem to handle the [HTTP Token Access Authentication](http://tools.ietf.org/html/draft-hammer-http-token-auth-01), for securing HTTP-based service and microservice architectures using token credentials. It supports both **parsing** and **building** a HTTP `Authentication` request header and a `WWW-Authenticate` response header using the token scheme.
+Ruby gem to handle the [HTTP Token Access Authentication](http://tools.ietf.org/html/draft-hammer-http-token-auth-01) draft specification, for securing HTTP-based service and microservice architectures using token credentials. It supports both **parsing** and **building** a HTTP `Authentication` request header and a `WWW-Authenticate` response header using the token scheme.
 
 Rather than being a complete opinionated authentication solution that only works with Rails or a specific HTTP framework, this library aims to be minimalistic and unobtrusive. This allows more flexibility and makes it compatible with virtually any HTTP servers and clients that run on the Ruby platform.
 
