@@ -19,6 +19,8 @@ Rather than being a complete opinionated authentication solution that only works
 
 This library does not authenticate users nor provide methods for obtaining token credentials. For that you can use another protocol, such as [OAuth](http://tools.ietf.org/html/rfc5849), which is implemented by the [Ruby OAuth](https://github.com/oauth-xx/oauth-ruby) gem.
 
+At the moment, only Ruby 2.1+ is supported.
+
 ## Motivation
 
 I created this library to help authenticate HTTP-based **microservices** and RESTful APIs in Ruby using token credentials.
