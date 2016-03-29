@@ -2,6 +2,7 @@
 
 [![Build Status](https://snap-ci.com/felipead/http-token-auth/branch/master/build_image)](https://snap-ci.com/felipead/http-token-auth/branch/master)
 [![Gem Version](https://badge.fury.io/rb/http-token-auth.svg)](https://badge.fury.io/rb/http-token-auth)
+[![Coverage Status](https://coveralls.io/repos/github/felipead/http-token-auth/badge.svg?branch=master)](https://coveralls.io/github/felipead/http-token-auth?branch=master)
 
 Ruby gem to handle the [HTTP Token Access Authentication](http://tools.ietf.org/html/draft-hammer-http-token-auth-01), which is still a draft specification and may change in the future.
 
@@ -262,6 +263,20 @@ Install required gems:
 Running [rspec](http://rspec.info/) tests and checking for [rubocop](http://batsov.com/rubocop/) violations:
 
     $ bundle exec rake
+
+### Code Coverage Reports
+
+This repository integrates with [coveralls.io](http://coveralls.io) for code coverage reports.
+
+To submit a code coverage report to coveralls.io:
+
+- `export COVERALLS_REPO_TOKEN="YOUR COVERALLS TOKEN"`
+- `bundle exec converalls push`
+
+To view the code coverage report:
+
+- `bundle exec converalls open`
+
 
 ## Contributing
 
