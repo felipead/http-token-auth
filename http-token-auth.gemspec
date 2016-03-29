@@ -7,7 +7,7 @@ require 'http/token_auth/version'
 Gem::Specification.new do |gem|
   gem.name                  = 'http-token-auth'
   gem.version               = HTTP::TokenAuth::VERSION
-  gem.required_ruby_version = '>= 2.0.0'
+  gem.required_ruby_version = '>= 2.1.0'
 
   gem.authors     = ['Felipe Dornelas']
   gem.email       = ['m@felipedornelas.com']

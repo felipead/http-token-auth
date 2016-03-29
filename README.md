@@ -17,7 +17,7 @@ The following authentication methods are supported:
 - [ ] [`hmac-sha-256`](http://tools.ietf.org/html/draft-hammer-http-token-auth-01#section-7.3)
 - [ ] [`rsassa-pkcs1-v1.5-sha-256`](http://tools.ietf.org/html/draft-hammer-http-token-auth-01#section-7.4)
 
-Minimum Ruby version: `2.0.0`.
+Works with Ruby `>= 2.1.0`.
 
 **WARNING**: HTTP Token Access Authentication is still a draft specification and may change in the future.
 
