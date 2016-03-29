@@ -1,7 +1,7 @@
 # HTTP Token Access Authentication
 
 [![Build Status](https://snap-ci.com/felipead/http-token-auth/branch/master/build_image)](https://snap-ci.com/felipead/http-token-auth/branch/master)
-[![Coverage Status](https://coveralls.io/repos/github/felipead/http-token-auth/badge.svg?branch=master)](https://coveralls.io/github/felipead/http-token-auth?branch=master)
+[![Test Coverage](https://codeclimate.com/github/felipead/http-token-auth/badges/coverage.svg)](https://codeclimate.com/github/felipead/http-token-auth/coverage)
 [![Code Climate](https://codeclimate.com/github/felipead/http-token-auth/badges/gpa.svg)](https://codeclimate.com/github/felipead/http-token-auth)
 [![Gem Version](https://badge.fury.io/rb/http-token-auth.svg)](https://badge.fury.io/rb/http-token-auth)
 
@@ -270,22 +270,6 @@ Install required gems:
 Running [rspec](http://rspec.info/) tests and checking for [rubocop](http://batsov.com/rubocop/) violations:
 
     $ bundle exec rake
-
-### Continuous Integration
-
-This repository uses [Snap-CI](http://snap-ci.com), a [ThoughtWorks](http://thoughtworks.com) product, for continuous integration builds. You can check the status of the latest build [here](https://snap-ci.com/felipead/http-token-auth/branch/master).
-
-### Code Coverage Reports
-
-This repository integrates with [coveralls.io](http://coveralls.io) for code coverage reports, which can be seen [here](https://coveralls.io/github/felipead/http-token-auth?branch=master).
-
-Coverage reports are automatically submitted as part of the CI pipeline and the rake build tasks, as long as the following environment variable is set:
-
-    export COVERALLS_REPO_TOKEN="YOUR COVERALLS REPO TOKEN"
-
-To see the coverage report thorugh the command-line:
-
-    $ bundle exec converalls open
 
 ## License
 

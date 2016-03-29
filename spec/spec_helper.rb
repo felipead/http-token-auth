@@ -1,7 +1,5 @@
-require 'coveralls'
-require 'simplecov'
-SimpleCov.start { add_filter '/spec/' }
-Coveralls.wear!
+require 'codeclimate-test-reporter'
+CodeClimate::TestReporter.start
 
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|
