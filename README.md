@@ -259,7 +259,9 @@ Or install it yourself as:
 
 ## Contributing
 
-Bug reports and pull requests are welcome on [GitHub](https://github.com/felipead/http-token-auth). Before submitting pull requests, please follow the guidelines below.
+Bug reports and pull requests are welcome on [GitHub](https://github.com/felipead/http-token-auth). Before contributing, please read the [contributing guidelines](CONTRIBUTING.md).
+
+Please note that this project is released with a Contributor Code of Conduct. By participating in this project you agree to abide by its terms.
 
 ### Development
 
