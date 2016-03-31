@@ -4,9 +4,7 @@
 
 Please write clean, idiomatic code that adheres to Ruby conventions.
 
-This project uses [Rubocop](https://github.com/bbatsov/rubocop) to check if code is following standards.
-
-To run it:
+This project uses [Rubocop](https://github.com/bbatsov/rubocop) to check if code is following standards. To run it:
 
     bundle exec rubocop
 
@@ -14,9 +12,7 @@ To run it:
 
 We recommend using Test Driven Development, writing tests before code in a Red-Green-Refactor cycle. This has the benefit of letting tests guide the design of classes and public interfaces, resulting in better code.
 
-Some people prefer writing tests after code. That's acceptable, however please keep in mind that code coverage must be kept at 100%.
-
-Also, test names should be written in [RSpec](http://rspec.info) in a descriptive manner.
+Some people prefer writing tests after code. That's acceptable, however please keep in mind that code coverage must be kept at 100%. Also, test should be written in [RSpec](http://rspec.info) in a descriptive manner.
 
 To run tests:
 
