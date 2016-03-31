@@ -257,12 +257,6 @@ Or install it yourself as:
 
     $ gem install http-token-auth
 
-## Contributing
-
-Bug reports and pull requests are welcome on [GitHub](https://github.com/felipead/http-token-auth). Before contributing, please read the [contributing guidelines](CONTRIBUTING.md).
-
-Please note that this project is released with a Contributor Code of Conduct. By participating in this project you agree to abide by its terms.
-
 ### Development
 
 Install required gems:
@@ -272,6 +266,12 @@ Install required gems:
 Running [rspec](http://rspec.info/) tests and checking for [rubocop](http://batsov.com/rubocop/) violations:
 
     $ bundle exec rake
+
+## Contributing
+
+Bug reports and pull requests are welcome on [GitHub](https://github.com/felipead/http-token-auth). Before contributing, please read the [contributing guidelines](CONTRIBUTING.md).
+
+Please note that this project is released with a Contributor Code of Conduct. By participating in this project you agree to abide by its terms.
 
 ## License
 
