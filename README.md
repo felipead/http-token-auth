@@ -1,6 +1,6 @@
 # HTTP Token Access Authentication
 
-[![Build Status](https://snap-ci.com/felipead/http-token-auth/branch/master/build_image)](https://snap-ci.com/felipead/http-token-auth/branch/master)
+[![Build Status](https://travis-ci.org/felipead/http-token-auth.svg?branch=master)](https://travis-ci.org/felipead/http-token-auth)
 [![Test Coverage](https://codeclimate.com/github/felipead/http-token-auth/badges/coverage.svg)](https://codeclimate.com/github/felipead/http-token-auth/coverage)
 [![Code Climate](https://codeclimate.com/github/felipead/http-token-auth/badges/gpa.svg)](https://codeclimate.com/github/felipead/http-token-auth)
 [![Gem Version](https://badge.fury.io/rb/http-token-auth.svg)](https://badge.fury.io/rb/http-token-auth)

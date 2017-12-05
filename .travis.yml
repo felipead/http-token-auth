@@ -1,0 +1,12 @@
+sudo: false
+language: ruby
+ruby:
+- 2.3
+
+install:
+  - bundle install
+
+script:
+  - bundle exec rake
+
+cache: bundle
