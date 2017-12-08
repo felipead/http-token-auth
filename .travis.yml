@@ -1,7 +1,7 @@
 sudo: false
 language: ruby
 ruby:
-- 2.3
+- 2.1
 
 install:
   - bundle install

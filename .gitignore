@@ -10,6 +10,5 @@
 /tmp/
 /.bundle/
 
-.ruby-version
 .ruby-gemset
 .rvmrc
