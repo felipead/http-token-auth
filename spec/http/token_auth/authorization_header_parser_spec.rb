@@ -5,41 +5,42 @@ include HTTP::TokenAuth
 describe AuthorizationHeaderParser do
   describe 'given the value of an "Authorization" HTTP request header with the token scheme' do
     it 'fails if "token" is missing' do
-      header = <<-EOS
+      header = <<-HEADER
         Token coverage="base",
               nonce="dj83hs9s",
               auth="djosJKDKJSD8743243/jdk33klY=",
               timestamp="137131200"
-      EOS
+      HEADER
       expect do
         HTTP::TokenAuth.parse_authorization_header(header)
       end.to raise_error(AuthorizationHeaderParsingError).with_message(/"token" is missing/)
     end
 
     it 'fails if "coverage" is different than "none", "base" or "base+body-sha-256"' do
-      header = <<-EOS
+      header = <<-HEADER
         Token token="h480djs93hd8",
               coverage="invalid",
               nonce="dj83hs9s",
               auth="djosJKDKJSD8743243/jdk33klY=",
               timestamp="137131200"
-      EOS
+      HEADER
       expect do
         HTTP::TokenAuth.parse_authorization_header(header)
       end.to raise_error(AuthorizationHeaderParsingError).with_message(
-        /Unsupported coverage "invalid"/)
+        /Unsupported coverage "invalid"/
+      )
     end
 
     describe 'using a cryptographic algorithm' do
       { 'base' => :base, 'base+body-sha-256' => :base_body_sha_256 }.each do |name, symbol|
         it %(parses it if coverage is "#{name}") do
-          header = <<-EOS
+          header = <<-HEADER
             Token token="h480djs93hd8",
                   coverage="#{name}",
                   nonce="dj83hs9s",
                   auth="djosJKDKJSD8743243/jdk33klY=",
                   timestamp="137131200"
-          EOS
+          HEADER
           credentials = HTTP::TokenAuth.parse_authorization_header(header)
           expect(credentials.token).to eq('h480djs93hd8')
           expect(credentials.coverage).to eq(symbol)
@@ -50,36 +51,36 @@ describe AuthorizationHeaderParser do
       end
 
       it 'fails if "nonce" is missing' do
-        header = <<-EOS
+        header = <<-HEADER
           Token token="h480djs93hd8",
                 coverage="base",
                 auth="djosJKDKJSD8743243/jdk33klY=",
                 timestamp="137131200"
-        EOS
+        HEADER
         expect do
           HTTP::TokenAuth.parse_authorization_header(header)
         end.to raise_error(AuthorizationHeaderParsingError).with_message(/"nonce" is missing/)
       end
 
       it 'fails if "auth" is missing' do
-        header = <<-EOS
+        header = <<-HEADER
           Token token="h480djs93hd8",
                 coverage="base",
                 nonce="dj83hs9s",
                 timestamp="137131200"
-        EOS
+        HEADER
         expect do
           HTTP::TokenAuth.parse_authorization_header(header)
         end.to raise_error(AuthorizationHeaderParsingError).with_message(/"auth" is missing/)
       end
 
       it 'fails if "timestamp" is missing' do
-        header = <<-EOS
+        header = <<-HEADER
           Token token="h480djs93hd8",
                 coverage="base",
                 nonce="dj83hs9s",
                 auth="djosJKDKJSD8743243/jdk33klY="
-        EOS
+        HEADER
         expect do
           HTTP::TokenAuth.parse_authorization_header(header)
         end.to raise_error(AuthorizationHeaderParsingError).with_message(/"timestamp" is missing/)
@@ -88,10 +89,10 @@ describe AuthorizationHeaderParser do
 
     describe 'without using a cryptographic algorithm' do
       it 'parses it if coverage is "none"' do
-        header = <<-EOS
+        header = <<-HEADER
           Token token="h480djs93hd8",
                 coverage="none"
-        EOS
+        HEADER
         credentials = HTTP::TokenAuth.parse_authorization_header(header)
         expect(credentials.token).to eq('h480djs93hd8')
         expect(credentials.coverage).to eq(:none)
@@ -101,9 +102,9 @@ describe AuthorizationHeaderParser do
       end
 
       it 'parses it if coverage is not defined' do
-        header = <<-EOS
+        header = <<-HEADER
           Token token="h480djs93hd8"
-        EOS
+        HEADER
         credentials = HTTP::TokenAuth.parse_authorization_header(header)
         expect(credentials.token).to eq('h480djs93hd8')
         expect(credentials.coverage).to eq(:none)

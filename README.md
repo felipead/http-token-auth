@@ -127,13 +127,13 @@ The following cryptographic authentication methods are defined in the specificat
   ```ruby
   require 'http/token_auth'
 
-  header = <<-EOS
+  header = <<-HEADER
     Token token="h480djs93hd8",
           coverage="base",
           timestamp="137131200",
           nonce="dj83hs9s",
           auth="djosJKDKJSD8743243/jdk33klY="
-  EOS
+  HEADER
 
   credentials = HTTP::TokenAuth.parse_authorization_header(header)
   credentials.token     # "h480djs93hd8"

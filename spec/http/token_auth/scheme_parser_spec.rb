@@ -19,13 +19,13 @@ describe SchemeParser do
     end
 
     it 'parses it returning a list of attributes' do
-      header = <<-EOS
+      header = <<-HEADER
         Token token="h480djs93hd8",
               coverage="base",
               nonce="dj83hs9s",
               auth="djosJKDKJSD8743243/jdk33klY=",
               timestamp="137131200"
-      EOS
+      HEADER
       attributes = parser.parse(header)
       expect(attributes[:token]).to eq('h480djs93hd8')
       expect(attributes[:coverage]).to eq('base')

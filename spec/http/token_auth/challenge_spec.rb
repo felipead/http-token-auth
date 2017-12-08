@@ -13,9 +13,10 @@ describe Challenge do
     it 'fails if a "none" coverage is combined with other coverages' do
       expect do
         Challenge.new realm: 'http://example.com',
-                      supported_coverages: [:none, :base, :base_body_sha_256]
+                      supported_coverages: %i[none base base_body_sha_256]
       end.to raise_error(ChallengeArgumentError).with_message(
-        /coverage "none" cannot be combined with other coverages/)
+        /coverage "none" cannot be combined with other coverages/
+      )
     end
 
     describe 'supported coverages' do
@@ -63,7 +64,7 @@ describe Challenge do
 
       it 'builds it with "base" and "base+body-sha-256" as supported coverages' do
         challenge = Challenge.new realm: 'http://example.com',
-                                  supported_coverages: [:base, :base_body_sha_256],
+                                  supported_coverages: %i[base base_body_sha_256],
                                   timestamp: 137131200
 
         header = challenge.to_header
@@ -76,7 +77,7 @@ describe Challenge do
       it 'fails if timestamp is not defined' do
         expect do
           Challenge.new realm: 'http://example.com',
-                        supported_coverages: [:base, :base_body_sha_256],
+                        supported_coverages: %i[base base_body_sha_256],
                         timestamp: nil
         end.to raise_error(ChallengeArgumentError).with_message(/"timestamp" is missing/)
       end

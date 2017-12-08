@@ -6,10 +6,8 @@ module HTTP
     class SchemeParser
       def parse(string)
         scheme, attributes_string = split(string)
-        raise SchemeParsingError,
-              'No attributes provided' if attributes_string.nil?
-        raise SchemeParsingError,
-              %(Unsupported scheme "#{scheme}") unless scheme == 'Token'
+        raise SchemeParsingError, 'No attributes provided' if attributes_string.nil?
+        raise SchemeParsingError, %(Unsupported scheme "#{scheme}") unless scheme == 'Token'
         parse_attributes(attributes_string)
       end
 

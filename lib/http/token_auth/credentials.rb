@@ -32,22 +32,15 @@ module HTTP
       def validate_itself
         must_have_token
         must_have_valid_coverage
-        unless @coverage == :none
-          must_have_nonce
-          must_have_auth
-          must_have_timestamp
-        end
+        return if @coverage == :none
+        must_have_nonce
+        must_have_auth
+        must_have_timestamp
       end
 
       def must_have_valid_coverage
-        case @coverage
-        when :none
-        when :base
-        when :base_body_sha_256
-          return
-        else
-          raise CredentialsArgumentError, %(unsupported "#{@coverage}" coverage)
-        end
+        return if %i[none base base_body_sha_256].include?(@coverage)
+        raise CredentialsArgumentError, %(unsupported "#{@coverage}" coverage)
       end
 
       def must_have_token

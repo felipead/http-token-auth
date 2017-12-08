@@ -4,10 +4,10 @@ gemspec
 
 group :test do
   gem 'rspec'
-  gem 'codeclimate-test-reporter'
+  gem 'simplecov'
 end
 
 group :development do
-  gem 'rubocop'
   gem 'rake'
+  gem 'rubocop'
 end

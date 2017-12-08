@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+require 'English'
 
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
@@ -16,7 +16,7 @@ Gem::Specification.new do |gem|
   gem.summary     = %s(Ruby gem to handle the HTTP Token Access Authentication draft specification, for securing HTTP-based service and microservice architectures using token credentials.)
   gem.description = %s(Ruby gem to handle the HTTP Token Access Authentication draft specification, for securing HTTP-based service and microservice architectures using token credentials. It supports both parsing and building a HTTP "Authentication" request header and a "WWW-Authenticate" response header using the token scheme.)
 
-  gem.files         = `git ls-files bin lib http-token-auth.gemspec LICENSE.txt`.split($/)
+  gem.files         = `git ls-files bin lib http-token-auth.gemspec LICENSE.txt`.split($RS)
   gem.executables   = gem.files.grep(%r{^bin/}).map { |f| File.basename(f) }
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
   gem.require_paths = ['lib']

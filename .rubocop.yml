@@ -3,8 +3,9 @@
 
 AllCops:
   TargetRubyVersion: 2.1
-  Exclude:
-    - http-token-auth.gemspec
+
+Style/NumericLiterals:
+  Enabled: false
 
 Style/NumericLiterals:
   Enabled: false
@@ -12,11 +13,11 @@ Style/NumericLiterals:
 Style/Documentation:
   Enabled: false
 
-Style/AlignParameters:
-  Enabled: true
-
-Style/AlignHash:
-  Enabled: true
+Style/BlockLength:
+  Exclude:
+    - spec/**/*.rb
 
 Metrics/LineLength:
   Max: 100
+  Exclude:
+    - http-token-auth.gemspec

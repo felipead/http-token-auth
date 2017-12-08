@@ -29,9 +29,7 @@ module HTTP
 
       def parse_coverage(string)
         case string
-        when nil
-        when ''
-        when 'none' then :none
+        when nil, '', 'none' then :none
         when 'base' then :base
         when 'base+body-sha-256' then :base_body_sha_256
         else raise AuthorizationHeaderParsingError, %(Unsupported coverage "#{string}")

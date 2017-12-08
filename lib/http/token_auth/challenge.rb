@@ -45,10 +45,8 @@ module HTTP
       end
 
       def supported_coverages_must_be_consistent
-        if supported_coverages.include?(:none) && supported_coverages.size > 1
-          raise ChallengeArgumentError,
-                'coverage "none" cannot be combined with other coverages'
-        end
+        return unless supported_coverages.include?(:none) && supported_coverages.size > 1
+        raise ChallengeArgumentError, 'coverage "none" cannot be combined with other coverages'
       end
 
       def coverage_string
