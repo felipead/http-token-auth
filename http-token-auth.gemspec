@@ -10,7 +10,7 @@ Gem::Specification.new do |gem|
   gem.required_ruby_version = '>= 2.1.0'
 
   gem.authors     = ['Felipe Dornelas']
-  gem.email       = ['m@felipedornelas.com']
+  gem.email       = ['felipedornelas.com']
   gem.homepage    = 'https://github.com/felipead/http-token-auth'
   gem.license     = 'MIT'
   gem.summary     = %s(Ruby gem to handle the HTTP Token Access Authentication draft specification, for securing HTTP-based service and microservice architectures using token credentials.)
